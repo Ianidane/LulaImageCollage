@@ -280,6 +280,7 @@ function ResizeImage(url){
            resetOrientation(blobBase64, ImgOrientation, function(resetBase64Image) {
             console.log("274");
             loadImageFromURL(resetBase64Image);
+            HideDiv();
             // images.src = resetBase64Image;
             // entries.push(images.src);
             // body.removeClass("loading");
@@ -602,9 +603,7 @@ chooseDirButton.addEventListener('click', function(e) {
     }
     // use local storage to retain access to this file
     chrome.storage.local.set({'chosenFile': chrome.fileSystem.retainEntry(theEntry)});
-    loadDirEntry(theEntry, function(){
-      HideDiv();
-    });
+    loadDirEntry(theEntry);
   });
 
 });
@@ -625,7 +624,11 @@ savePNGButton.addEventListener('click', function(e) {
 
 saveJPGButton.addEventListener('click', function(e) {
   var zip = new JSZip();
-  var img = zip.folder("images");
+  if (WatermarkText == ""){
+    var img = zip.folder("images");
+  } else {
+    var img = zip.folder(WatermarkText);
+  }
   $(".WatermarkPhoto").each(function(index) {
       $('#JPGContainer').prepend('<canvas id="JPG'+index+'" />');
       imgsrc = this.src;
