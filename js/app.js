@@ -303,7 +303,7 @@ function ResizeImage(url){
             autoCropArea:0.2,
             ready: function () {
               this.cropper.zoom(0.1);
-              this.cropper.setCropBoxData({"left":425,"width":100,"height":100})
+              this.cropper.setCropBoxData({"left":650,"width":100,"height":100})
               base64 = this.cropper.getCroppedCanvas({width:125,height:125}).toDataURL();
               $('#croped').prepend('<img id="croped" src="'+base64+'"/>');
               CropImages.push(base64);
@@ -317,7 +317,7 @@ function ResizeImage(url){
 }
 
 function HideDiv(){
-  $('#crop').hide()
+  //$('#crop').hide()
 }
 
 function LogoHasLoaded() {
