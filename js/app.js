@@ -276,7 +276,7 @@ function ResizeImage(url){
 }
 
 function HideDiv(){
-  //$('#crop').hide()
+  $('#crop').hide()
 }
 
 function LogoHasLoaded() {
