@@ -1,18 +1,3 @@
-/*
-Copyright 2012 Google Inc.
-Licensed under the Apache License, Version 2.0 (the "License");
-you may not use this file except in compliance with the License.
-You may obtain a copy of the License at
-     http://www.apache.org/licenses/LICENSE-2.0
-Unless required by applicable law or agreed to in writing, software
-distributed under the License is distributed on an "AS IS" BASIS,
-WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-See the License for the specific language governing permissions and
-limitations under the License.
-Author: Eric Bidelman (ericbidelman@chromium.org)
-Updated: Joe Marini (joemarini@google.com)
-*/
-
 
 var chosenEntry = null;
 var LogoCheck = document.querySelector('#ChkLogo');
@@ -129,8 +114,6 @@ function loadLogoFromFile(file) {
   console.log("128");
   ResizeBlob = ResizeLogo(file).then(function(res){
     console.log(ResizeBlob);
-    //images.src = ResizeBlob;
-    //loadImageFromURL(URL.createObjectURL(ResizeBlob));
   })
   //loadLogoFromURL(URL.createObjectURL(ResizeBlob));
 }
@@ -140,12 +123,7 @@ function loadImageFromFile(file) {
   //console.log("138"+file);
   ResizeImage(file).then(function(res){
     console.log("142");
-    //images.src = ResizeBlob;
-    //loadImageFromURL(URL.createObjectURL(ResizeBlob));
   })
-  //console.log(ResizeBlob);
-  //images.src = ResizeBlob;
-  // loadImageFromURL(URL.createObjectURL(ResizeBlob));
 }
 
 function loadLogoFromURL(url) {
@@ -156,12 +134,6 @@ function loadLogoFromURL(url) {
 }
 
 function loadImageFromURL(url) {
-  //console.log("141 - "+url);
-  //ResizeBlob = ResizeImage(url);
-  //.getElementById('select').onchange = function(evt) {
-
-  //};
-  // console.log(ResizeBlob);
   console.log("163");
   images.src = url;
   entries.push(images.src);
@@ -274,23 +246,11 @@ function ResizeImage(url){
         // didItResize will be true if it managed to resize it, otherwise false (and will return the original file as 'blob')
         blobBase64 = window.URL.createObjectURL(blob);
         // you can also now upload this blob using an XHR.
-
-        // GetOrientation(url, function(Orientation){
-        //   console.log("272 "+Orientation);
            resetOrientation(blobBase64, ImgOrientation, function(resetBase64Image) {
             console.log("274");
             loadImageFromURL(resetBase64Image);
             HideDiv();
-            // images.src = resetBase64Image;
-            // entries.push(images.src);
-            // body.removeClass("loading");
           });
-        // });
-
-        // resetOrientation(blobBase64, 5, function(resetBase64Image) {
-        //   console.log("274");
-        //   loadImageFromURL(resetBase64Image);
-        // });
     });
 
         cropsrc = window.URL.createObjectURL(url);
@@ -308,8 +268,6 @@ function ResizeImage(url){
               base64 = this.cropper.getCroppedCanvas({width:125,height:125}).toDataURL();
               $('#croped').prepend('<img id="croped" src="'+base64+'"/>');
               CropImages.push(base64);
-              // $('#crop').hide()
-              // $('#croped').hide()
             }
           }));
         }
@@ -427,22 +385,11 @@ function loadInitialFile(launchData) {
     });
   }
 }
-function MakeZoomedImage(){
+function MakeZoomedImage(callback){
   console.log(WatermarkText);
-  $.each(entries, function( index, value ) {
-    // $('#crop').prepend('<img id="crop'+index+'" src="'+value+'" />');
-    // var basic = $('#crop'+index).croppie({viewport: { width: 125, height: 125}, boundary: { width: 520, height: 760 },enableZoom:0});
-    // $('#crop'+index).imagesLoaded( function() {
-    // // body.addClass("loading");
-    // basic.croppie('bind', {url: value, points:[20,20,20,20]}).then(function() {
-    //   basic.croppie('result', 'base64', {size: [200,200]}).then(function(base64) {
-    //     $('#crop'+index).imagesLoaded( function() {
-    //     $('#croped').prepend('<img id="croped'+index+'" src="'+base64+'" />')
-    //       $('#croped').hide()
-    //       $('#crop').hide()
-    //       body.removeClass("loading");
-    //       });
 
+  $.each(entries, function( index, value ) {
+    body.addClass("loading");
           //begin watermarking
           var t = $("<div id='container"+index+"' class='WatermarkPhotoContainer'></div>");
           $('#watermarked').append(t);
@@ -453,41 +400,8 @@ function MakeZoomedImage(){
           .load([CropImages[index]])
           .image(watermark.image.lowerLeft())
           .then(image => document.getElementById('container'+index).appendChild(image).setAttribute("class", "WatermarkPhoto"));
-      //   });
-      // });
-      // });
     });
-
-
-
-  // $.each(entries, function( index, value ) {
-  //   $('#crop').prepend('<img id="crop'+index+'" src="'+value+'" />');
-  //   var basic = $('#crop'+index).croppie({viewport: { width: 125, height: 125}, boundary: { width: 520, height: 760 },enableZoom:0});
-  //   $('#crop'+index).imagesLoaded( function() {
-  //   // body.addClass("loading");
-  //   basic.croppie('bind', {url: value, points:[20,20,20,20]}).then(function() {
-  //     basic.croppie('result', 'base64', {size: [200,200]}).then(function(base64) {
-  //       $('#crop'+index).imagesLoaded( function() {
-  //       $('#croped').prepend('<img id="croped'+index+'" src="'+base64+'" />')
-  //         $('#croped').hide()
-  //         $('#crop').hide()
-  //         body.removeClass("loading");
-  //         });
-  //
-  //         //begin watermarking
-  //         var t = $("<div id='container"+index+"' class='WatermarkPhotoContainer'></div>");
-  //         $('#watermarked').append(t);
-  //         watermark([value, img])
-  //         .image(watermark.image.upperRight())
-  //         .render()
-  //         .image(watermark.text.upperLeft(WatermarkText, FontSize+'px '+Font, TextColor, 0.0, 48))
-  //         .load([base64])
-  //         .image(watermark.image.lowerLeft())
-  //         .then(image => document.getElementById('container'+index).appendChild(image).setAttribute("class", "WatermarkPhoto"));
-  //       });
-  //     });
-  //     });
-  //   });
+    return callback("end");
 
 }
 
@@ -536,40 +450,6 @@ $( document ).ready(function() {
 
 
 
-
-//LogoCheck.addEventListener('click', function(e) {
-  //console.log("logo "+LogoCheck.value);
-  //$('#LogoCanvas').fadeIn('fast');
-  // if (this.checked){
-  //   $(LogoButton).prop( "disabled", false );
-  //   //$(LogoButton).fadeIn('fast');
-  // } else {
-  //   //$(LogoButton).fadeOut('fast');
-  //   $(LogoButton).prop( "disabled", true );
-  //
-  // }
-//});
-
-// TypeCheck.addEventListener('click', function(e) {
-//   console.log("type click");
-//   if (this.checked){
-//     $(Type).prop( "disabled", false );
-//     //$(Type).fadeIn('fast');
-//  } else {
-//    $(Type).prop( "disabled", true );
-//    //$(Type).fadeOut('fast');
-//   }
-// });
-//
-// SizeCheck.addEventListener('click', function(e) {
-//   if (this.checked){
-//     $(Size).prop( "disabled", false );
-//     //$(Size).fadeIn('fast');
-//   } else{
-//     $(Size).prop( "disabled", true );
-//     //$(Size).fadeOut('fast');
-//   }
-// });
 
 LogoButton.addEventListener('click', function(e) {
   $('#LogoCanvas').fadeIn('fast');
@@ -651,7 +531,7 @@ saveJPGButton.addEventListener('click', function(e) {
 
 RunButton.addEventListener('click', function(e) {
   console.log(entries);
-  //body.addClass("loading");
+
   $('#watermarked').fadeIn('fast');
   if (Type.value !== "" && Size.value !== ""){
     console.log("type and size");
@@ -668,9 +548,13 @@ RunButton.addEventListener('click', function(e) {
   }
   Font = FontSelect.value;
   FontSize = $("#SlideFontSize").slider("getValue");
-  MakeZoomedImage();
+  MakeZoomedImage(function(callback){
+    body.removeClass("loading");
+  });
+
   savePNGButton.disabled = false;
   saveJPGButton.disabled = false;
+  chooseDirButton.disabled = true;
 });
 
 ClearPicturesButton.addEventListener('click', function(e) {
@@ -694,6 +578,7 @@ ClearPicturesButton.addEventListener('click', function(e) {
   $('#JPGContainer').empty();
   savePNGButton.disabled = true;
   saveJPGButton.disabled = true;
+  chooseDirButton.disabled = false;
 });
 
 ClearAllButton.addEventListener('click', function(e) {
@@ -708,15 +593,11 @@ ClearAllButton.addEventListener('click', function(e) {
   entries = [];
   CropImages = [];
   document.getElementById('file_path').value = "";
-  //$('#txtType').selected([0]);
-  //$("#txtType")[0].selectedIndex = 0;
+
   $('#txtType').selectpicker('val', 0);
-  //$('#txtSize').selected([0]);
-  //$("#txtSize")[0].selectedIndex = 0;
+
   $('#txtSize').selectpicker('val', 0);
 
-  //$('#txtFont').selected([0]);
-  //$("#txtFont")[0].selectedIndex = 0;
   $('#txtFont').selectpicker('val', 0);
 
   $('#LogoCanvas').empty();
@@ -729,4 +610,5 @@ ClearAllButton.addEventListener('click', function(e) {
   $('#JPGContainer').empty();
   savePNGButton.disabled = true;
   saveJPGButton.disabled = true;
+  chooseDirButton.disabled = false;
 });
