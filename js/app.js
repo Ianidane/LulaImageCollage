@@ -254,7 +254,7 @@ function ResizeImage(url){
     });
 
         cropsrc = window.URL.createObjectURL(url);
-        $('#crop').prepend('<img id="crop" src="'+cropsrc+'" />');
+        $('#cropdiv').prepend('<img id="crop" src="'+cropsrc+'" />');
         var images = document.querySelectorAll('img');
         var length = images.length;
         var croppers = [];
@@ -263,8 +263,8 @@ function ResizeImage(url){
           croppers.push(new Cropper(images[i],{
             autoCropArea:0.2,
             ready: function () {
-              this.cropper.zoom(0.1);
-              this.cropper.setCropBoxData({"left":650,"width":100,"height":100})
+              this.cropper.zoom(-0.5);
+              this.cropper.setCropBoxData({"left":650,"width":125,"height":125})
               base64 = this.cropper.getCroppedCanvas({width:125,height:125}).toDataURL();
               $('#croped').prepend('<img id="croped" src="'+base64+'"/>');
               CropImages.push(base64);
@@ -276,7 +276,7 @@ function ResizeImage(url){
 }
 
 function HideDiv(){
-  $('#crop').hide()
+  $('#cropdiv').hide()
 }
 
 function LogoHasLoaded() {
@@ -344,6 +344,14 @@ function loadDirEntry(_chosenEntry, callback) {
         }
         else {
           results.forEach(function(item) {
+            if (item.isDirectory){
+              console.log("Directory found - Skipping over it - "+item);
+              var notification = new Notification('Directory found', {
+                body: "Please only include photos in your directory",
+                icon: "../images/lularoeicon.jpg"
+              });
+              return;
+            }
             item.file(function(file) {
               loadImageFromFile(file);
             });
@@ -363,30 +371,31 @@ function loadDirEntry(_chosenEntry, callback) {
 
 }
 
-function loadInitialFile(launchData) {
-  if (launchData && launchData.items && launchData.items[0]) {
-    loadFileEntry(launchData.items[0].entry);
-  }
-  else {
-    // see if the app retained access to an earlier file or directory
-    chrome.storage.local.get('chosenFile', function(items) {
-      if (items.chosenFile) {
-        // if an entry was retained earlier, see if it can be restored
-        chrome.fileSystem.isRestorable(items.chosenFile, function(bIsRestorable) {
-          // the entry is still there, load the content
-          console.info("Restoring " + items.chosenFile);
-          chrome.fileSystem.restoreEntry(items.chosenFile, function(chosenEntry) {
-            if (chosenEntry) {
-              chosenEntry.isFile ? loadFileEntry(chosenEntry) : loadDirEntry(chosenEntry);
-            }
-          });
-        });
-      }
-    });
-  }
-}
+// function loadInitialFile(launchData) {
+//   if (launchData && launchData.items && launchData.items[0]) {
+//     loadFileEntry(launchData.items[0].entry);
+//   }
+//   else {
+//     // see if the app retained access to an earlier file or directory
+//     chrome.storage.local.get('chosenFile', function(items) {
+//       if (items.chosenFile) {
+//         // if an entry was retained earlier, see if it can be restored
+//         chrome.fileSystem.isRestorable(items.chosenFile, function(bIsRestorable) {
+//           // the entry is still there, load the content
+//           console.info("Restoring " + items.chosenFile);
+//           chrome.fileSystem.restoreEntry(items.chosenFile, function(chosenEntry) {
+//             if (chosenEntry) {
+//               chosenEntry.isFile ? loadFileEntry(chosenEntry) : loadDirEntry(chosenEntry);
+//             }
+//           });
+//         });
+//       }
+//     });
+//   }
+// }
 function MakeZoomedImage(callback){
-  console.log(WatermarkText);
+  console.log(entries);
+  console.log(CropImages);
 
   $.each(entries, function( index, value ) {
     body.addClass("loading");
@@ -445,6 +454,8 @@ $( document ).ready(function() {
     orientation: 'horizontal'
   });
 
+  var AppID = chrome.runtime.id;
+  $('<style> @font-face { font-family: "SteelFish"; src: url("chrome-extension://'+AppID+'/fonts/steelfish rg.ttf"); font-weight: normal; font-style: normal; } @font-face { font-family: "MavenPro"; src: url("chrome-extension://'+AppID+'/fonts/MavenPro-Regular.ttf"); font-weight: normal; font-style: normal;} </style>').appendTo(document.head);
 
 });
 
@@ -518,7 +529,7 @@ saveJPGButton.addEventListener('click', function(e) {
       $('#JPGContainer').imagesLoaded( function() {
         var imageJPGURL = imageJPG.toDataURL("image/jpeg");
         var DataURL = imageJPGURL.replace('data:image/jpeg;base64,','');
-        img.file(index+".jpg", DataURL, {base64: true});
+        img.file(WatermarkText+index+".jpg", DataURL, {base64: true});
       });
   });
   $('#JPGContainer').imagesLoaded( function() {
@@ -530,7 +541,6 @@ saveJPGButton.addEventListener('click', function(e) {
 });
 
 RunButton.addEventListener('click', function(e) {
-  console.log(entries);
 
   $('#watermarked').fadeIn('fast');
   if (Type.value !== "" && Size.value !== ""){
@@ -568,12 +578,14 @@ ClearPicturesButton.addEventListener('click', function(e) {
   //basic.destroy()
   entries = [];
   CropImages = [];
+  Croppers = [];
+
   document.getElementById('file_path').value = "";
   $('#watermarked').empty();
   $('#watermarked').hide();
   $('#crop').empty();
   $('#croped').empty();
-  $('#croped').show()
+  // $('#croped').show()
   $('#crop').show()
   $('#JPGContainer').empty();
   savePNGButton.disabled = true;
@@ -592,6 +604,7 @@ ClearAllButton.addEventListener('click', function(e) {
   //basic.destroy()
   entries = [];
   CropImages = [];
+  Croppers = [];
   document.getElementById('file_path').value = "";
 
   $('#txtType').selectpicker('val', 0);
@@ -605,7 +618,7 @@ ClearAllButton.addEventListener('click', function(e) {
   $('#watermarked').hide();
   $('#crop').empty();
   $('#croped').empty();
-  $('#croped').show()
+  // $('#croped').show()
   $('#crop').show()
   $('#JPGContainer').empty();
   savePNGButton.disabled = true;
