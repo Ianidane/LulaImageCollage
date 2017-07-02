@@ -9,6 +9,7 @@
 <link rel="stylesheet" href="css/fontselect.css">
 <link href="css/bootstrap-slider.min.css" rel="stylesheet">
 <link  href="css/cropper.css" rel="stylesheet">
+<link rel="stylesheet" href="css/mdb.min.css">
 
 <head>
   <meta name="theme-color" content="#888b80">
@@ -31,6 +32,8 @@ body{
   /*background-image: url("LulaBackground.jpg");
   background-size: 100% 100%;
   background-color: #888b80;*/
+  font-family:'MavenPro';
+  /*background-color: rgba(246, 117, 153, 1);*/
 }
 html {
   overflow-y:scroll;
@@ -117,183 +120,222 @@ img {
 }*/
 
 canvas {
-  /*width: 150px;
-  height: 100px;*/
+  width: 100px;
+  height: 100px;
 }
+
+.card {
+         overflow: visible;
+     }
+
+.cropper-container {
+  height: 275px;
+  width: 215px;
+}
+
+
 </style>
 </head>
-<body bgcolor="#888b80">
+<body>
 
 <!-- <nav>
   <button id="choose_dir">Choose Directory</button>
 </nav> -->
+
+<!--Navbar-->
+<nav class="navbar navbar-toggleable-md navbar-dark pink accent-1">
+    <div class="container">
+        <a class="navbar-brand">
+          <img src="/images/AppIcon.png" alt="LulaRoe Collage Maker" style="width:45px;height:45px;"></img>
+        </a>
+        <a class="navbar-brand">
+          <h5>LulaRoe Collage Maker</h5>
+        </a>
+    </div>
+</nav>
+
 <div class="container">
-  <div class="page-header">
-        <h1>Lularoe Collage Maker</h1>
+  <!-- <div class="page-header">
         <p class="lead">Choose a directory with photos all the same style</p>
-  </div>
+  </div> -->
   <div class="row top-buffer">
     <div class="col-md-12">
-      <button id="choose_dir" class="btn btn-lg btn-primary">Directory</button>  <input type="text" id="file_path" placeholder= "Path:" readonly>
+
+      <div class="card #9e9e9e grey">
+        <div class="card-content white-text text-center">
+            <span class="card-title">Choose a directory with photos all the same style</span><br>
+            <input type="text" id="file_path" placeholder= "Path:" readonly>
+        </div>
+        <div class="card-btn text-center">
+          <button id="choose_dir" class="btn btn-lg btn-primary blue accent-1">Directory</button>
+        </div>
+      </div>
     </div>
   </div>
 
   <!-- Path: <input type="text" id="file_path" readonly> -->
   <!-- <span>Size: <span id="file_size"></span> bytes</span> -->
-  <div class="page-header">
-        <p class="lead">Add your logo</p>
-  </div>
+
   <div class="row top-buffer">
-    <div class="col-md-6">
-      <div class="btn-group" data-toggle="buttons">
-        <!-- <label class="btn btn-primary">
-          <input type="checkbox" id="ChkLogo">Add Logo
-        </label> -->
-        <button id="choose_logo" class="btn btn-primary">Choose logo</button>
+    <div class="col-md-12">
+      <!--Image Card-->
+      <div class="card #9e9e9e grey text-center" id="LogoCard">
+        <div class="card-block text-center">
+          <h4 class="card-title">Choose a logo</h4>
+          <button id="choose_logo" class="btn btn-primary blue accent-1">Choose logo</button>
+        </div>
+        <canvas id="LogoCanvas" class="card-img-bottom text-center"></canvas>
       </div>
     </div>
     <!-- <div class="col-md-6"><button id="choose_logo" class="btn btn-primary" hidden>Choose logo</button></div> -->
   </div>
-  <!-- <nav>
-    <button id="choose_logo" hidden>Choose logo</button>
-  </nav> -->
-  <div class="row">
-    <div class="col-md-12" id='LogoCanvas' style="display:none">
-      <div id="image_display">
-        <canvas id="LogoCanvas" style="width:200;height:200"></canvas>
+
+  <div class="row top-buffer">
+    <div class="col-md-12">
+      <div class="card #9e9e9e grey">
+        <div class="card-content white-text text-center">
+            <span class="card-title">Choose the style and size</span><br>
+            <!-- <input type="text" id="file_path" placeholder= "Path:" readonly> -->
+        </div>
+        <div class="card-action text-center">
+          <div class="dropdown">
+            <button class="btn btn-secondary dropdown-toggle blue accent-1" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+              Style
+            </button>
+            <div class="dropdown-menu style" aria-labelledby="dropdownMenuButton">
+              <a class="dropdown-item">Adeline</a>
+              <a class="dropdown-item">Amelia</a>
+              <a class="dropdown-item">Anna</a>
+              <a class="dropdown-item">Azure</a>
+              <a class="dropdown-item">Bianka</a>
+              <a class="dropdown-item">Carly</a>
+              <a class="dropdown-item">Cassie</a>
+              <a class="dropdown-item">Classic</a>
+              <a class="dropdown-item">Gracie</a>
+              <a class="dropdown-item">Irma</a>
+              <a class="dropdown-item">Jade</a>
+              <a class="dropdown-item">Jill</a>
+              <a class="dropdown-item">Jordan</a>
+              <a class="dropdown-item">Joy</a>
+              <a class="dropdown-item">Julia</a>
+              <a class="dropdown-item">Kids Azure</a>
+              <a class="dropdown-item">Kids Leggings</a>
+              <a class="dropdown-item">Leggings</a>
+              <a class="dropdown-item">Lindsay</a>
+              <a class="dropdown-item">Lola</a>
+              <a class="dropdown-item">Lucy</a>
+              <a class="dropdown-item">Madison</a>
+              <a class="dropdown-item">Mae</a>
+              <a class="dropdown-item">Mark</a>
+              <a class="dropdown-item">Maxi</a>
+              <a class="dropdown-item">Monroe</a>
+              <a class="dropdown-item">Nicole</a>
+              <a class="dropdown-item">Patrick</a>
+              <a class="dropdown-item">Perfect</a>
+              <a class="dropdown-item">Randy</a>
+              <a class="dropdown-item">Sarah</a>
+              <a class="dropdown-item">Scarlett</a>
+              <a class="dropdown-item">Sloan</a>
+            </div>
+          </div>
+          <p id="StyleChose"></p>
+
+          <div class="dropdown">
+            <button class="btn btn-secondary dropdown-toggle blue accent-1" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+              Size
+            </button>
+            <div class="dropdown-menu size" aria-labelledby="dropdownMenuButton">
+              <a class="dropdown-item">XXS</a>
+              <a class="dropdown-item">XS</a>
+              <a class="dropdown-item">S</a>
+              <a class="dropdown-item">M</a>
+              <a class="dropdown-item">L</a>
+              <a class="dropdown-item">XL</a>
+              <a class="dropdown-item">2XL</a>
+              <a class="dropdown-item">3XL</a>
+              <a class="dropdown-item">Tween Kids</a>
+              <a class="dropdown-item">OS</a>
+              <a class="dropdown-item">TC</a>
+              <a class="dropdown-item">Kids S/M</a>
+              <a class="dropdown-item">Kids L/XL</a>
+            </div>
+          </div>
+          <p id="SizeChose"></p>
+        </div>
+        </div>
       </div>
+    </div>
+    <div class="row top-buffer">
+    <div class="col-md-12">
+      <div class="card #9e9e9e grey">
+        <div class="card-content white-text text-center">
+            <span class="card-title">Choose font, size and color</span><br>
+        </div>
+        <div class="card-action text-center">
+          <div class="dropdown">
+            <button class="btn btn-secondary dropdown-toggle blue accent-1" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Font</button>
+            <div class="dropdown-menu font" aria-labelledby="dropdownMenuButton">
+              <a class="dropdown-item">SteelFish</a>
+              <a class="dropdown-item">Maven Pro</a>
+            </div>
+          </div>
+          <!-- <div class="btn-group">
+            <button type="button" class="btn btn-default dropdown-toggle blue accent-1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+              Font <span class="caret"></span>
+            </button>
+            <ul class="dropdown-menu font">
+              <li><a>SteelFish</a></li>
+              <li><a>MavenPro</a></li>
+            </ul>
+          </div> -->
+          <p id="FontChose"></p>
+          Font Size <div class="slider" id="SlideFontSize"></div>
+          Text Color <input type='text' id="showPalette" value='#fff'></input>
+        </div>
+      </div>
+  </div>
+</div>
+
+  <div class="row top-buffer">
+    <div class="col-md-12">
+      <div id="watermarked" class='divWatermarkPhoto' hidden></div>
     </div>
   </div>
 
-  <div class="page-header">
-        <p class="lead">Choose the style and size</p>
-  </div>
-  <div class="row">
-    <!-- <div class="col-md-3">
-      <div class="btn-group" data-toggle="buttons">
-       <label class="btn btn-primary">
-         <input type="checkbox" id="ChkType">Add Type
-       </label>
-      </div>
-    </div> -->
-  <!-- <input type="text" id="txtTypeSize" hidden> -->
-    <div class="col-md-3">
-      <select id="txtType" class="selectpicker" data-live-search="true">
-        <option value="">Style</option>
-        <option value="Amelia">Amelia</option>
-        <option value="Anna">Anna</option>
-        <option value="Nicole">Nicole</option>
-        <option value="Carly">Carly</option>
-        <option value="Jill">Jill</option>
-        <option value="Cassie">Cassie</option>
-        <option value="Madison">Madison</option>
-        <option value="Perfect">Perfect</option>
-        <option value="Azure">Azure</option>
-        <option value="Monroe">Monroe</option>
-        <option value="Maxi">Maxi</option>
-        <option value="Julia">Julia</option>
-        <option value="Lola">Lola</option>
-        <option value="Classic">Classic</option>
-        <option value="Lindsay">Lindsay</option>
-        <option value="Irma">Irma</option>
-        <option value="Sarah">Sarah</option>
-        <option value="Joy">Joy</option>
-        <option value="Jordan">Jordan</option>
-        <option value="Jade">Jade</option>
-        <option value="Leggings">Leggings</option>
-        <option value="Kids Leggings">Kids Leggings</option>
-        <option value="Randy">Randy</option>
-        <option value="Mark">Mark</option>
-        <option value="Patrick">Patrick</option>
-        <option value="Mae">Mae</option>
-        <option value="Adeline">Adeline</option>
-        <option value="Kids Azure">Kids Azure</option>
-        <option value="Gracie">Gracie</option>
-        <option value="Bianka">Bianka</option>
-        <option value="Sloan">Sloan</option>
-        <option value="Lucy">Lucy</option>
-        <option value="Scarlett">Scarlett</option>
-      </select>
-    </div>
-    <!-- <div class="col-md-3">
-      <div class="btn-group" data-toggle="buttons">
-        <label class="btn btn-primary">
-          <input type="checkbox" id="ChkSize">Add Size
-        </label>
-      </div>
-    </div> -->
-    <div class="col-md-3">
-      <select id="txtSize" class="selectpicker">
-        <option value="">Size</option>
-        <option value="XXS">XXS</option>
-        <option value="XS">XS</option>
-        <option value="S">S</option>
-        <option value="M">M</option>
-        <option value="L">L</option>
-        <option value="XL">XL</option>
-        <option value="2XL">2XL</option>
-        <option value="3XL">3XL</option>
-        <option value="Tween Kids">Tween Kids</option>
-        <option value="OS">OS</option>
-        <option value="TC">TC</option>
-        <option value="Kids S/M">Kids S/M</option>
-        <option value="Kids L/XL">Kids L/XL</option>
-      </select>
-    </div>
-    <div class="col-md-2">
-      Text Color <input type='text' id="showPalette" value='#fff'></input>
-    </div>
-    <div class="col-md-3">
-      <!-- <input id="font" type="text"> -->
-      <select id="txtFont" class="selectpicker">
-        <option value="sans-serif">Font</option>
-        <option id='SteelFish' value="SteelFish">SteelFish</option>
-        <option id='MavenPro' value="MavenPro">Maven Pro</option>
-      </select>
-    </div>
-    <div class="col-md-2">
-      <!-- <input id="font" type="text"> -->
-      Font Size <div class="slider" id="SlideFontSize"></div>
-    </div>
-  </div>
-
-  <div class="row">
+  <div class="row top-buffer">
     <div class="col-md-6">
       <p>
         <button id="btnRun" class="btn btn-lg btn-primary">Run</button>
-        <button id="save_PNG" class="btn btn-lg btn-primary" disabled>Save As PNG</button>
-        <button id="save_JPG" class="btn btn-lg btn-primary" disabled>Save As JPG</button>
+        <button id="save_PNG" class="btn btn-lg btn-primary blue accent-1" disabled>Save As PNG</button>
+        <button id="save_JPG" class="btn btn-lg btn-primary blue accent-1" disabled>Save As JPG</button>
       </p>
     </div>
     <div class="col-md-6">
-      <button id="btnClearImages" class="btn btn-lg btn-primary">Clear Pictures</button>
-      <button id="btnClearAll" class="btn btn-lg btn-primary">Clear Everything</button>
+      <button id="btnClearImages" class="btn btn-lg btn-primary blue accent-1">Clear Pictures</button>
+      <button id="btnClearAll" class="btn btn-lg btn-primary blue accent-1">Clear Everything</button>
     </div>
   </div>
-</div>
 
-<div class="row">
-  <div class="col-md-12 top-buffer">
-    <div id="watermarked" class='divWatermarkPhoto' hidden></div>
+
+  <div class="crop" id="cropdiv">
+  </div>
+
+  <div id="croped">
+  </div>
+
+  <div id="JPGContainer" hidden>
+    <!-- <canvas id="JPGCanvas"></canvas> -->
+  </div>
+
+
+
+  <div class="modal">
+    <i class="fa fa-cog fa-spin fa-3x fa-fw centered"></i>
+    <span class="sr-only">Loading...</span>
   </div>
 </div>
 
-<div class="crop" id="cropdiv">
-</div>
 
-<div id="croped" hidden>
-</div>
-
-<div id="JPGContainer" hidden>
-  <!-- <canvas id="JPGCanvas"></canvas> -->
-</div>
-
-
-
-<div class="modal">
-  <i class="fa fa-cog fa-spin fa-3x fa-fw centered"></i>
-  <span class="sr-only">Loading...</span>
-</div>
 
 <script src="js/app.js"></script>
 <script src="js/watermark.js" type="text/javascript"></script>
@@ -306,6 +348,7 @@ canvas {
 <script src="js/jquery.fontselect.min.js"></script>
 <script src="js/bootstrap-slider.min.js"></script>
 <script src="js/ImageTools.js"></script>
+<script src="js/mdb.min.js"></script>
 
 
 

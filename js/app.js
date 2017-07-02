@@ -4,11 +4,12 @@ var LogoCheck = document.querySelector('#ChkLogo');
 var TypeCheck = document.querySelector('#ChkType');
 var SizeCheck = document.querySelector('#ChkSize');
 var LogoButton = document.querySelector('#choose_logo');
-var Type = document.querySelector('#txtType');
-var Size = document.querySelector('#txtSize');
-var FontSelect = document.querySelector('#txtFont');
+var Type = "";
+var Size = "";
+var FontSelect = "sans-serif";
 var chooseFileButton = document.querySelector('#choose_file');
 var chooseDirButton = document.querySelector('#choose_dir');
+PhotoAmount = "";
 var ClearPicturesButton = document.querySelector('#btnClearImages');
 var ClearAllButton = document.querySelector('#btnClearAll');
 var savePNGButton = document.querySelector('#save_PNG');
@@ -16,6 +17,7 @@ var saveJPGButton = document.querySelector('#save_JPG');
 var RunButton = document.querySelector('#btnRun');
 var entries = [];
 var CropImages = [];
+var croppers = [];
 var images = new Image();
 var canvas = document.querySelector('canvas');
 var canvasContext = canvas.getContext('2d');
@@ -137,7 +139,7 @@ function loadImageFromURL(url) {
   console.log("163");
   images.src = url;
   entries.push(images.src);
-  body.removeClass("loading");
+  //body.removeClass("loading");
 }
 
 function resetOrientation(srcBase64, srcOrientation, callback) {
@@ -232,13 +234,12 @@ function GetOrientation(url,callback){
   };
   reader.readAsArrayBuffer(url);
 }
-
+var c = 0;
 function ResizeImage(url){
   console.log("ResizeImage");
   GetOrientation(url, function(Orientation){
     ImgOrientation = Orientation;
     console.log("272 "+ImgOrientation);
-
     ImageTools.resize(url, {
         width: 720, // maximum width
         height: 960 // maximum height
@@ -249,29 +250,40 @@ function ResizeImage(url){
            resetOrientation(blobBase64, ImgOrientation, function(resetBase64Image) {
             console.log("274");
             loadImageFromURL(resetBase64Image);
-            HideDiv();
-          });
-    });
+            //cropsrc = window.URL.createObjectURL(url);
+            $('#cropdiv').prepend('<img id="crop" src="'+resetBase64Image+'" />');
+            var images = document.querySelectorAll('#crop');
+            var length = images.length;
 
-        cropsrc = window.URL.createObjectURL(url);
-        $('#cropdiv').prepend('<img id="crop" src="'+cropsrc+'" />');
-        var images = document.querySelectorAll('img');
-        var length = images.length;
-        var croppers = [];
-        var i;
-        for (i = 0; i < length; i++) {
-          croppers.push(new Cropper(images[i],{
-            autoCropArea:0.2,
-            ready: function () {
-              this.cropper.zoom(-0.5);
-              this.cropper.setCropBoxData({"left":650,"width":125,"height":125})
-              base64 = this.cropper.getCroppedCanvas({width:125,height:125}).toDataURL();
-              $('#croped').prepend('<img id="croped" src="'+base64+'"/>');
-              CropImages.push(base64);
+            for (i = 0; i < length; i++) {
+              croppers.push(new Cropper(images[i],{
+                autoCropArea:0.2,
+                ready: function () {
+                  this.cropper.zoom(0.3);
+                  console.log(this);
+                  this.cropper.setCropBoxData({"left":"50%","width":125,"height":125})
+                  c++;
+                  console.log(PhotoAmount);
+                  console.log(c);
+                  //if (c == PhotoAmount){
+                  if (PhotoAmount == c){
+                    HideDiv();
+                    body.removeClass("loading");
+                  }
+                  // base64 = this.cropper.getCroppedCanvas({width:125,height:125}).toDataURL();
+                  // $('#croped').prepend('<img id="croped" src="'+base64+'"/>');
+                  // CropImages.push(base64);
+
+                }
+              }));
+
             }
-          }));
-        }
+            //HideDiv();
+          });
+
+    });
   });
+
 
 }
 
@@ -296,7 +308,7 @@ function imageHasLoaded() {
 }
 
 function displayfileEntryPath(fileEntry) {
-  console.log("149 - "+fileEntry);
+  //console.log("149 - "+fileEntry);
   chrome.fileSystem.getDisplayPath(fileEntry, displayText);
 }
 
@@ -311,11 +323,11 @@ function clearState() {
 
 
 function drawCanvas() {
-  console.log("177 - "+img.width);
+  //console.log("177 - "+img.width);
   canvas.width = canvas.clientWidth;
   canvas.height = canvas.clientHeight;
-  console.log("180 - "+canvas.width);
-  console.log("222 - "+img.src);
+  //console.log("180 - "+canvas.width);
+  //console.log("222 - "+img.src);
   var cc = canvasContext;
 
   if (!img.width || !img.height || !canvas.width || !canvas.height)
@@ -330,25 +342,30 @@ function drawCanvas() {
 // and put the results into the textarea, then disable the Save As button
 function loadDirEntry(_chosenEntry, callback) {
   chosenEntry = _chosenEntry;
-  console.log(chosenEntry);
+  //console.log(chosenEntry);
   if (chosenEntry.isDirectory) {
     var dirReader = chosenEntry.createReader();
     var entries = [];
+    //console.log(dirReader);
 
     // Call the reader.readEntries() until no more results are returned.
     var readEntries = function() {
        dirReader.readEntries (function(results) {
+        //console.log(results.length);
+
         if (!results.length) {
-          console.log("end");
+          //console.log("end");
            displayEntryData(chosenEntry);
+
         }
         else {
+          PhotoAmount = results.length;
           results.forEach(function(item) {
             if (item.isDirectory){
               console.log("Directory found - Skipping over it - "+item);
               var notification = new Notification('Directory found', {
                 body: "Please only include photos in your directory",
-                icon: "../images/lularoeicon.jpg"
+                icon: "../images/AppIcon.png"
               });
               return;
             }
@@ -357,13 +374,10 @@ function loadDirEntry(_chosenEntry, callback) {
             });
           });
           readEntries();
-
         }
       }, errorHandler);
     };
-
     readEntries(); // Start reading dirs.
-
   }
 
   //displayEntryData(chosenEntry);
@@ -393,24 +407,43 @@ function loadDirEntry(_chosenEntry, callback) {
 //     });
 //   }
 // }
+
+function CropAction(){
+  var cropel = document.querySelectorAll('#crop');
+  var length = cropel.length;
+
+  var i;
+  for (i = 0; i < length; i++) {
+    base64 = cropel[i].cropper.getCroppedCanvas({width:125,height:125}).toDataURL();
+    $('#croped').prepend('<img id="croped" src="'+base64+'"/>');
+    CropImages.push(base64);
+  }
+}
+
 function MakeZoomedImage(callback){
   console.log(entries);
   console.log(CropImages);
+  body.addClass("loading");
 
   $.each(entries, function( index, value ) {
-    body.addClass("loading");
+    var cropel = document.querySelectorAll('#crop');
+    base64 = cropel[index].cropper.getCroppedCanvas({width:125,height:125}).toDataURL();
+
           //begin watermarking
           var t = $("<div id='container"+index+"' class='WatermarkPhotoContainer'></div>");
           $('#watermarked').append(t);
-          watermark([value, img])
+          watermark([cropel[index].src, img])
           .image(watermark.image.upperRight())
           .render()
           .image(watermark.text.upperLeft(WatermarkText, FontSize+'px '+Font, TextColor, 0.0, 48))
-          .load([CropImages[index]])
+          .load([base64])
           .image(watermark.image.lowerLeft())
-          .then(image => document.getElementById('container'+index).appendChild(image).setAttribute("class", "WatermarkPhoto"));
+          .then(image => document.getElementById('container'+index).appendChild(image).setAttribute("class", "WatermarkPhoto materialboxed responsive-img"));
+
+          //body.removeClass("loading");
     });
-    return callback("end");
+
+    return callback(1);
 
 }
 
@@ -457,6 +490,24 @@ $( document ).ready(function() {
   var AppID = chrome.runtime.id;
   $('<style> @font-face { font-family: "SteelFish"; src: url("chrome-extension://'+AppID+'/fonts/steelfish rg.ttf"); font-weight: normal; font-style: normal; } @font-face { font-family: "MavenPro"; src: url("chrome-extension://'+AppID+'/fonts/MavenPro-Regular.ttf"); font-weight: normal; font-style: normal;} </style>').appendTo(document.head);
 
+  $(".style a").click( function() {
+    Type = $(this).text();
+    $('#StyleChose').html(Type);
+    console.log(Type);
+  });
+
+  $(".size a").click( function() {
+    Size = $(this).text();
+    $('#SizeChose').html(Size);
+    console.log(Size);
+  });
+
+  $(".font a").click( function() {
+    FontSelect = $(this).text();
+    $('#FontChose').html(FontSelect);
+    console.log(FontSelect);
+  });
+
 });
 
 
@@ -489,7 +540,7 @@ chooseDirButton.addEventListener('click', function(e) {
     body.addClass("loading");
     if (!theEntry) {
       //output.textContent = 'No Directory selected.';
-      body.removeClass("loading");
+      // body.removeClass("loading");
       return;
     }
     // use local storage to retain access to this file
@@ -543,25 +594,27 @@ saveJPGButton.addEventListener('click', function(e) {
 RunButton.addEventListener('click', function(e) {
 
   $('#watermarked').fadeIn('fast');
-  if (Type.value !== "" && Size.value !== ""){
+  if (Type !== "" && Size !== ""){
     console.log("type and size");
-    WatermarkText = Type.value+" - "+Size.value;
+    WatermarkText = Type+" - "+Size;
     console.log(WatermarkText);
-  } else if (Type.value == "" && Size.value !== ""){
+  } else if (Type == "" && Size !== ""){
     console.log("size");
-    WatermarkText = Size.value;
+    WatermarkText = Size;
     console.log(WatermarkText);
-  } else if (Type.value !== "" && Size.value == ""){
+  } else if (Type !== "" && Size == ""){
     console.log("type");
-    WatermarkText = Type.value;
+    WatermarkText = Type;
     console.log(WatermarkText);
   }
-  Font = FontSelect.value;
+  Font = FontSelect;
   FontSize = $("#SlideFontSize").slider("getValue");
-  MakeZoomedImage(function(callback){
+  //CropAction();
+
+  MakeZoomedImage(function(back){
+    console.log(back);
     body.removeClass("loading");
   });
-
   savePNGButton.disabled = false;
   saveJPGButton.disabled = false;
   chooseDirButton.disabled = true;
@@ -583,7 +636,7 @@ ClearPicturesButton.addEventListener('click', function(e) {
   document.getElementById('file_path').value = "";
   $('#watermarked').empty();
   $('#watermarked').hide();
-  $('#crop').empty();
+  $('#cropdiv').empty();
   $('#croped').empty();
   // $('#croped').show()
   $('#crop').show()
@@ -607,16 +660,22 @@ ClearAllButton.addEventListener('click', function(e) {
   Croppers = [];
   document.getElementById('file_path').value = "";
 
-  $('#txtType').selectpicker('val', 0);
+  //$('#txtType').selectpicker('val', 0);
+  Type = "";
+  $('#StyleChose').html("");
 
-  $('#txtSize').selectpicker('val', 0);
+  //$('#txtSize').selectpicker('val', 0);
+  Size = "";
+  $('#SizeChose').html("");
 
-  $('#txtFont').selectpicker('val', 0);
+  //$('#txtFont').selectpicker('val', 0);
+  FontSelect = "";
+  $('#FontChose').html("");
 
-  $('#LogoCanvas').empty();
+  canvasContext.clearRect(0, 0, canvas.width, canvas.height);
   $('#watermarked').empty();
   $('#watermarked').hide();
-  $('#crop').empty();
+  $('#cropdiv').empty();
   $('#croped').empty();
   // $('#croped').show()
   $('#crop').show()

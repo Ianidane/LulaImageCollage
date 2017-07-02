@@ -3,7 +3,7 @@
   "version": "1",
   "manifest_version": 2,
   "minimum_chrome_version": "31",
-  "web_accessible_resources": [ "fonts/steelfish rg.ttf", "fonts/MavenPro-Regular.ttf" ],
+  "web_accessible_resources": [ "fonts/steelfish rg.ttf", "fonts/MavenPro-Regular.ttf","font/roboto/*" ],
   "app": {
     "background": {
       "scripts": ["background.js"]
@@ -20,5 +20,8 @@
           "text/*"
       ]
     }
+  },
+  "icons": {
+    "128": "images/AppIcon.png"
   }
 }
