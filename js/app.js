@@ -139,6 +139,7 @@ function loadImageFromURL(url) {
   console.log("163");
   images.src = url;
   entries.push(images.src);
+
   //body.removeClass("loading");
 }
 
@@ -250,8 +251,10 @@ function ResizeImage(url){
            resetOrientation(blobBase64, ImgOrientation, function(resetBase64Image) {
             console.log("274");
             loadImageFromURL(resetBase64Image);
-            //cropsrc = window.URL.createObjectURL(url);
-            $('#cropdiv').prepend('<img id="crop" src="'+resetBase64Image+'" />');
+
+
+            cropsrc = window.URL.createObjectURL(url);
+            $('#cropdiv').prepend('<img id="crop" src="'+cropsrc+'" />');
             var images = document.querySelectorAll('#crop');
             var length = images.length;
 
@@ -266,19 +269,21 @@ function ResizeImage(url){
                   console.log(PhotoAmount);
                   console.log(c);
                   //if (c == PhotoAmount){
+                  base64 = this.cropper.getCroppedCanvas({width:125,height:125}).toDataURL();
+                  $('#cropeddiv').prepend('<img id="croped" src="'+base64+'"/>');
+                  $('#imgresized').prepend('<img id="finalimg" src="'+resetBase64Image+'" />');
+                  // CropImages.push(base64);
                   if (PhotoAmount == c){
                     HideDiv();
                     body.removeClass("loading");
                   }
-                  // base64 = this.cropper.getCroppedCanvas({width:125,height:125}).toDataURL();
-                  // $('#croped').prepend('<img id="croped" src="'+base64+'"/>');
-                  // CropImages.push(base64);
 
                 }
               }));
 
             }
             //HideDiv();
+
           });
 
     });
@@ -421,13 +426,15 @@ function CropAction(){
 }
 
 function MakeZoomedImage(callback){
-  console.log(entries);
-  console.log(CropImages);
   body.addClass("loading");
 
   $.each(entries, function( index, value ) {
-    var cropel = document.querySelectorAll('#crop');
-    base64 = cropel[index].cropper.getCroppedCanvas({width:125,height:125}).toDataURL();
+    var cropel = document.querySelectorAll('#finalimg');
+    var cropedel = document.querySelectorAll('#croped');
+    console.log(cropel[index]);
+    console.log(cropedel[index]);
+
+    //base64 = cropel[index].cropper.getCroppedCanvas({width:125,height:125}).toDataURL();
 
           //begin watermarking
           var t = $("<div id='container"+index+"' class='WatermarkPhotoContainer'></div>");
@@ -436,7 +443,7 @@ function MakeZoomedImage(callback){
           .image(watermark.image.upperRight())
           .render()
           .image(watermark.text.upperLeft(WatermarkText, FontSize+'px '+Font, TextColor, 0.0, 48))
-          .load([base64])
+          .load([cropedel[index].src])
           .image(watermark.image.lowerLeft())
           .then(image => document.getElementById('container'+index).appendChild(image).setAttribute("class", "WatermarkPhoto materialboxed responsive-img"));
 
