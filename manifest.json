@@ -1,9 +1,8 @@
 {
-  "name": "Lularoe Collage",
-  "version": "1",
+  "name": "RoeLage",
+  "version": "1.0.0",
   "manifest_version": 2,
   "minimum_chrome_version": "31",
-  "web_accessible_resources": [ "fonts/steelfish rg.ttf", "fonts/MavenPro-Regular.ttf","font/roboto/*" ],
   "app": {
     "background": {
       "scripts": ["background.js"]
@@ -22,6 +21,6 @@
     }
   },
   "icons": {
-    "128": "images/AppIcon.png"
+    "128": "images/Icon.png"
   }
 }

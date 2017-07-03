@@ -1,7 +1,7 @@
 {
-  "name": "imagecollage",
+  "name": "RoeLage",
   "version": "1.0.0",
-  "description": "LulaRoe Collage Maker",
+  "description": "RoeLage",
   "main": "background.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
@@ -14,5 +14,8 @@
   "scripts": {
     "dist": "build --tasks win-x64,linux-x64,mac-x64 --mirror https://dl.nwjs.io/ .",
     "start": "run --x86 --mirror https://dl.nwjs.io/ ."
+},
+"window": {
+   "icon": "images/Icon.png"
 }
 }
