@@ -113,7 +113,6 @@ body.loading .modal {
 
 .divWatermarkPhoto {
   height: 275px;
-  padding-left: 4%;
 
 }
 
@@ -122,6 +121,11 @@ body.loading .modal {
   height: 275px;
   width: 215px;
   font-family:'Caviar Dreams';
+}
+
+.WatermarkCog {
+  display: none;
+  margin: auto;
 }
 
 
@@ -144,13 +148,17 @@ canvas {
   width: 215px;
 }
 
+.tooltip{
+  z-index:1;
+}
+
 
 </style>
 </head>
 <body>
 
 
-<nav class="navbar navbar-toggleable-md navbar-dark pink accent-1">
+<!-- <nav class="navbar navbar-toggleable-md navbar-dark pink accent-1">
     <div class="container">
         <a class="navbar-brand">
           <img src="/images/Icon.png" alt="RoeLage" style="width:45px;height:45px;"></img>
@@ -159,15 +167,31 @@ canvas {
           <h5>RoeLage</h5>
         </a>
     </div>
-</nav>
+</nav> -->
+<!--Navigation-->
+ <nav class="navbar navbar-fixed-top z-depth-1 pink accent-1" role="navigation">
+     <div class="container">
+         <div class="navbar-header">
+           <img src="/images/Icon.png" alt="RoeLage" style="width:55px;height:55px;"></img>&nbsp;&nbsp;&nbsp;
+         </div>
+         <div class="navbar-header">
+           <a class="navbar-brand waves-effect waves-light ultra-bold-900" href="#">RoeLage</a>
+         </div>
+         <!-- <ul class="list-inline pull-right text-center">
+                <li><a href="#" data-toggle="modal" data-target="#myModal" class="waves-effect waves-light"><i class="fa fa-envelope-o fa-3"></i><br>Contact</a></li>
+          </ul> -->
+     </div>
+ </nav>
+ <!--/.Navigation-->
 
 <div class="container">
+  <div class="space-50" style="height: 80px"></div>
   <div class="row top-buffer">
     <div class="col-md-6">
 
       <div class="card #9e9e9e grey">
         <div class="card-content white-text text-center">
-            <span class="card-title">Choose a directory with photos the same style and size</span><br>
+            <span class="card-title">Choose a folder with photos the same style and size</span><br>
             <input type="text" id="file_path" placeholder= "Path:" readonly>
         </div>
         <div class="card-btn text-center">
@@ -315,7 +339,7 @@ canvas {
         <div class="card-btn text-center">
           <div class="dropdown">
             <button class="btn btn-primary dropdown-toggle blue accent-1" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Font</button>
-            <div class="dropdown-menu font" aria-labelledby="dropdownMenuButton">
+            <div class="dropdown-menu font" aria-labelledby="dropdownMenuButton" style="z-index:1000">
               <a class="dropdown-item">SteelFish</a>
               -
               <a class="dropdown-item">Maven Pro</a>
@@ -340,8 +364,9 @@ canvas {
 </div>
 <hr>
 <p class="text-center">Preview</p>
+<i class="fa fa-cog fa-spin fa-3x fa-fw WatermarkCog"></i>
   <div class="row top-buffer">
-    <div class="col-md-12">
+    <div class="col-md-12 text-center">
       <div id="watermarked" class='divWatermarkPhoto' hidden></div>
     </div>
   </div>

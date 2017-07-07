@@ -345,16 +345,32 @@ function loadDirEntry(_chosenEntry, callback) {
           results.forEach(function(item) {
             if (item.isDirectory){
               console.log("Directory found - Skipping over it - "+item);
-              var notification = new Notification('Directory found', {
-                body: "Please only include photos in your directory",
-                icon: "../images/AppIcon.png"
-              });
+              // var notification = new Notification('Directory found', {
+              //   body: "Please only include photos in your directory",
+              //   icon: "../images/AppIcon.png"
+              // });
+              PhotoAmount--;
               return;
             }
             item.file(function(file) {
-              loadImageFromFile(file);
+              console.log(file);
+              if (file.type == "image/jpeg" || file.type == "image/png"){
+                loadImageFromFile(file);
+              } else {
+                PhotoAmount--;
+                console.log(PhotoAmount);
+                 if (PhotoAmount == 0){
+                   var notification = new Notification('No photos found!', {
+                     body: "Please include photos in the selected folder to process",
+                     icon: "../images/AppIcon.png"
+                   });
+                   body.removeClass("loading");
+                 }
+                return;
+              }
             });
           });
+
           readEntries();
         }
       }, errorHandler);
@@ -399,8 +415,6 @@ function CropAction(){
 }
 
 function MakeZoomedImage(callback){
-  body.addClass("loading");
-
   $.each(entries, function( index, value ) {
     var cropel = document.querySelectorAll('#finalimg');
     var cropedel = document.querySelectorAll('#croped');
@@ -570,6 +584,10 @@ saveJPGButton.addEventListener('click', function(e) {
 });
 
 RunButton.addEventListener('click', function(e) {
+  if (document.getElementById('file_path').value == ""){
+    //some alert
+  }
+  $('.WatermarkCog').css("display","block");
   if( document.getElementById('watermarked').innerHTML !== "" ) {
     $('#watermarked').empty();
   }
@@ -593,11 +611,14 @@ RunButton.addEventListener('click', function(e) {
   //CropAction();
 
   MakeZoomedImage(function(back){
-    body.removeClass("loading");
+    //$('.WatermarkCog').css("display","none");
   });
   savePNGButton.disabled = false;
   saveJPGButton.disabled = false;
   chooseDirButton.disabled = true;
+  $('#watermarked').imagesLoaded( function() {
+    $('.WatermarkCog').css("display","none");
+  });
 });
 
 ClearPicturesButton.addEventListener('click', function(e) {
