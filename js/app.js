@@ -474,7 +474,6 @@ $( document ).ready(function() {
     orientation: 'horizontal'
   });
 
-  var AppID = chrome.runtime.id;
 
 
 

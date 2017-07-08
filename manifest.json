@@ -8,6 +8,7 @@
       "scripts": ["background.js"]
     }
   },
+  "key": "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEA0b5bi0Jnlchhkh/OSJKcdC2pVA17VoF9psyU+OnM8uZmigHIMmrNgk0EPofDGslyqZxcaf3U8KEGIm42Gu2dV8V75IwyQVyB8ZZnyfMXiI49pvLx+Byz3ELfpK7/C5icxSKG12BgcBdCkm3Eka7jdNukzYjT8Ceus/VAI8tXaO7uxM17GATBx6kJ4WDLNFCcRduDZOfsu2PSONfvST+E8HGNzqIYXMeIPBKw/1BmvLdY8XjM5djz/60pVN7vp0MERYEvU1X7VWdzQa5tUrDf2dTkP6QPVZaeyLZ5JMKbH148sl2ZKZf2hzV08/4Jutk+C46SEccmPcIX2DynBw2VWQIDAQAB",
   "permissions": [
     {"fileSystem": ["write", "retainEntries", "directory"]},
     "storage",
@@ -21,6 +22,6 @@
     }
   },
   "icons": {
-    "128": "images/Icon.png"
+    "128": "images/AppIcon.png"
   }
 }
