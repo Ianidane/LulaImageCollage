@@ -1,6 +1,6 @@
 {
   "name": "RoeLage",
-  "version": "1.0.0",
+  "version": "0.0.0.1",
   "description": "RoeLage",
   "main": "background.js",
   "scripts": {
@@ -16,6 +16,6 @@
     "start": "run --x86 --mirror https://dl.nwjs.io/ ."
 },
 "window": {
-   "icon": "images/Icon.png"
+   "icon": "images/AppIcon.png"
 }
 }

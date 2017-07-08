@@ -496,6 +496,9 @@ $( document ).ready(function() {
     //console.log(FontSelect);
   });
 
+   $('[data-toggle="tooltip"]').tooltip({animation: true, delay: {show: 300, hide: 300}});   
+
+
 });
 
 

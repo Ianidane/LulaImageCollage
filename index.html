@@ -195,7 +195,8 @@ canvas {
             <input type="text" id="file_path" placeholder= "Path:" readonly>
         </div>
         <div class="card-btn text-center">
-          <button id="choose_dir" class="btn btn-primary blue accent-1">Directory</button>
+          <!-- <button id="choose_dir" class="btn btn-primary blue accent-1">Directory</button> -->
+          <button id="choose_dir" type="button" class="btn btn-primary blue accent-1" data-toggle="tooltip" data-placement="top" title="" data-original-title="Detailed image comes from the center of your photos">Directory</button>
         </div>
       </div>
     </div>
@@ -207,7 +208,7 @@ canvas {
           <canvas id="LogoCanvas" class="card-img-bottom text-center"></canvas>
         </div>
         <div class="card-btn text-center">
-          <button id="choose_logo" class="btn btn-primary blue accent-1">Choose logo</button>
+          <button id="choose_logo" class="btn btn-primary blue accent-1" data-toggle="tooltip" data-placement="top" title="" data-original-title="Logo will be resized to a maximum 200x200px">Choose logo</button>
         </div>
       </div>
     </div>
@@ -380,8 +381,8 @@ canvas {
       </p>
     </div>
     <div class="col-md-6 text-right">
-      <button id="btnClearImages" class="btn btn-lg btn-primary blue accent-1">Clear Pictures</button>
-      <button id="btnClearAll" class="btn btn-lg btn-primary blue accent-1">Clear Everything</button>
+      <button id="btnClearImages" class="btn btn-lg btn-primary blue accent-1" data-toggle="tooltip" data-placement="top" title="" data-original-title="Clears preview and selected folder. Logo, font, and style will remain">Clear Pictures</button>
+      <button id="btnClearAll" class="btn btn-lg btn-primary blue accent-1" data-toggle="tooltip" data-placement="top" title="" data-original-title="Clears all fields and preview">Clear Everything</button>
     </div>
   </div>
 
