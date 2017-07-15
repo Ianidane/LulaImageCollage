@@ -106,10 +106,10 @@ function waitForIO(writer, callback) {
 // for files, read the text content into the textarea
 function loadLogoEntry(_chosenEntry) {
   chosenEntry = _chosenEntry;
-  chosenEntry.file(function(file) {
-    loadLogoFromFile(file);
-    displayfileEntryPath(chosenFileEntry);
-  });
+  //chosenEntry.file(function(file) {
+    loadLogoFromFile(chosenEntry);
+    //displayfileEntryPath(chosenFileEntry);
+  //});
 }
 
 function loadLogoFromFile(file) {
@@ -328,12 +328,15 @@ function drawCanvas() {
 // and put the results into the textarea, then disable the Save As button
 function loadDirEntry(_chosenEntry, callback) {
   chosenEntry = _chosenEntry;
-  if (chosenEntry.isDirectory) {
+  console.log(chosenEntry);
+  //if (chosenEntry.isDirectory) {
+    console.log("333");
     var dirReader = chosenEntry.createReader();
     var entries = [];
 
     // Call the reader.readEntries() until no more results are returned.
     var readEntries = function() {
+      console.log("339");
        dirReader.readEntries (function(results) {
 
         if (!results.length) {
@@ -341,8 +344,10 @@ function loadDirEntry(_chosenEntry, callback) {
 
         }
         else {
+          console.log("347");
           PhotoAmount = results.length;
           results.forEach(function(item) {
+            console.log("350");
             if (item.isDirectory){
               console.log("Directory found - Skipping over it - "+item);
               // var notification = new Notification('Directory found', {
@@ -376,7 +381,7 @@ function loadDirEntry(_chosenEntry, callback) {
       }, errorHandler);
     };
     readEntries(); // Start reading dirs.
-  }
+  //}
 }
 
 // function loadInitialFile(launchData) {
@@ -496,7 +501,7 @@ $( document ).ready(function() {
     //console.log(FontSelect);
   });
 
-   $('[data-toggle="tooltip"]').tooltip({animation: true, delay: {show: 300, hide: 300}});   
+   $('[data-toggle="tooltip"]').tooltip({animation: true, delay: {show: 300, hide: 300}});
 
 
 });
@@ -506,39 +511,84 @@ $( document ).ready(function() {
 
 
 
-LogoButton.addEventListener('click', function(e) {
-  $('#LogoCanvas').fadeIn('fast');
-  var accepts = [{
-    mimeTypes: ['image/*'],
-    extensions: ['jpeg','png']
-  }];
-  chrome.fileSystem.chooseEntry({type: 'openFile', accepts: accepts}, function(theEntry) {
-    if (!theEntry) {
-      output.textContent = 'No image selected.';
-      return;
+// LogoButton.addEventListener('click', function(e) {
+//   $('#LogoCanvas').fadeIn('fast');
+//   var accepts = [{
+//     mimeTypes: ['image/*'],
+//     extensions: ['jpeg','png']
+//   }];
+//   chrome.fileSystem.chooseEntry({type: 'openFile', accepts: accepts}, function(theEntry) {
+//     if (!theEntry) {
+//       output.textContent = 'No image selected.';
+//       return;
+//     }
+//     // use local storage to retain access to this file
+//     chrome.storage.local.set({'chosenFile': chrome.fileSystem.retainEntry(theEntry)});
+//     loadLogoEntry(theEntry);
+//   });
+//
+//
+// });
+document.getElementById('choose_logo').addEventListener('change', handleLogo, false);
+function handleLogo(evt) {
+  var file = evt.target.files[0]; // FileList object
+
+  // files is a FileList of File objects. List some properties.
+  // var output = [];
+  // for (var i = 0, f; f = files[i]; i++) {
+  //   output.push('<li><strong>', escape(f.name), '</strong> (', f.type || 'n/a', ') - ',
+  //               f.size, ' bytes, last modified: ',
+  //               f.lastModifiedDate ? f.lastModifiedDate.toLocaleDateString() : 'n/a',
+  //               '</li>');
+  // }
+  // document.getElementById('list').innerHTML = '<ul>' + output.join('') + '</ul>';
+  //if (!evt.type.match('image.*')) {
+  console.log(file);
+    loadLogoEntry(file);
+  //}
+
+}
+
+
+
+document.getElementById('choose_dir').addEventListener('change', function(evt){
+
+  var files = evt.target.files; // FileList object
+  console.log(files);
+  body.addClass("loading");
+  document.getElementById("file_path").value= files.length+" photos selected";
+  if (evt.target.files == ""){
+    body.removeClass("loading");
+  }
+  // Loop through the FileList and render image files as thumbnails.
+  for (var i = 0, f; f = files[i]; i++) {
+
+    // Only process image files.
+    if (!f.type.match('image.*')) {
+      continue;
     }
-    // use local storage to retain access to this file
-    chrome.storage.local.set({'chosenFile': chrome.fileSystem.retainEntry(theEntry)});
-    loadLogoEntry(theEntry);
-  });
 
+    var reader = new FileReader();
 
-});
+    // Closure to capture the file information.
+    reader.onload = (function(theFile) {
+      return function(e) {
+        // Render thumbnail.
+        // var span = document.createElement('span');
+        // span.innerHTML = ['<img class="thumb" src="', e.target.result,
+        //                   '" title="', escape(theFile.name), '"/>'].join('');
+        // document.getElementById('list').insertBefore(span, null);
+        PhotoAmount = i;
+        console.log(theFile);
+        loadImageFromFile(theFile);
+      };
+    })(f);
 
-chooseDirButton.addEventListener('click', function(e) {
-  chrome.fileSystem.chooseEntry({type: 'openDirectory'}, function(theEntry) {
-    body.addClass("loading");
-    if (!theEntry) {
-      //output.textContent = 'No Directory selected.';
-      body.removeClass("loading");
-      return;
-    }
-    // use local storage to retain access to this file
-    chrome.storage.local.set({'chosenFile': chrome.fileSystem.retainEntry(theEntry)});
-    loadDirEntry(theEntry);
-  });
+    // Read in the image file as a data URL.
+    reader.readAsDataURL(f);
+  }
+  }, false);
 
-});
 
 savePNGButton.addEventListener('click', function(e) {
   var zip = new JSZip();
@@ -624,12 +674,13 @@ RunButton.addEventListener('click', function(e) {
 });
 
 ClearPicturesButton.addEventListener('click', function(e) {
-  chrome.storage.local.remove(["chosenFile"],function(){
-  var error = chrome.runtime.lastError;
-      if (error) {
-          console.error(error);
-      }
-  })
+  // chrome.storage.local.remove(["chosenFile"],function(){
+  // var error = chrome.runtime.lastError;
+  //     if (error) {
+  //         console.error(error);
+  //     }
+  // })
+  $('input[type="file"]').val(null);
   entries = [];
   CropImages = [];
   Croppers = [];
@@ -651,15 +702,18 @@ ClearPicturesButton.addEventListener('click', function(e) {
 });
 
 ClearAllButton.addEventListener('click', function(e) {
-  chrome.storage.local.remove(["chosenFile"],function(){
-  var error = chrome.runtime.lastError;
-      if (error) {
-          console.error(error);
-      }
-  })
+  // chrome.storage.local.remove(["chosenFile"],function(){
+  // var error = chrome.runtime.lastError;
+  //     if (error) {
+  //         console.error(error);
+  //     }
+  // })
+  $('input[type="file"]').val(null);
+  PhotoAmount = 0;
   entries = [];
   CropImages = [];
   Croppers = [];
+  c = 0;
   document.getElementById('file_path').value = "";
 
   Type = "";

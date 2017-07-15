@@ -1,5 +1,6 @@
 <html>
 <script src="js/jquery.js"></script>
+<!-- <script>window.$ = window.jQuery = require('./js/jquery.js');</script> -->
 <script src="js/cropper.js"></script>
 <link rel='stylesheet' href='css/spectrum.css' />
 <link href="css/bootstrap.min.css" rel="stylesheet">
@@ -172,7 +173,7 @@ canvas {
  <nav class="navbar navbar-fixed-top z-depth-1 pink accent-1" role="navigation">
      <div class="container">
          <div class="navbar-header">
-           <img src="/images/AppIcon.png" alt="RoeLage" style="width:55px;height:55px;"></img>&nbsp;&nbsp;&nbsp;
+           <img src="./images/AppIcon.png" alt="RoeLage" style="width:55px;height:55px;"></img>&nbsp;&nbsp;&nbsp;
          </div>
          <div class="navbar-header">
            <a class="navbar-brand waves-effect waves-light ultra-bold-900" href="#">RoeLage</a>
@@ -191,12 +192,16 @@ canvas {
 
       <div class="card #9e9e9e grey">
         <div class="card-content white-text text-center">
-            <span class="card-title">Choose a folder with photos the same style and size</span><br>
-            <input type="text" id="file_path" placeholder= "Path:" readonly>
+            <span class="card-title">Choose one or multiple photos at once</span><br>
+            <input type="text" id="file_path" placeholder= "Number of photos selected" readonly>
         </div>
         <div class="card-btn text-center">
           <!-- <button id="choose_dir" class="btn btn-primary blue accent-1">Directory</button> -->
-          <button id="choose_dir" type="button" class="btn btn-primary blue accent-1" data-toggle="tooltip" data-placement="top" title="" data-original-title="Detailed image comes from the center of your photos">Directory</button>
+          <!-- <button id="choose_dir" type="button" class="btn btn-primary blue accent-1" data-toggle="tooltip" data-placement="top" title="" data-original-title="Detailed image comes from the center of your photos">Directory</button> -->
+          <!-- <input type="file" id="choose_dir" class="btn btn-primary blue accent-1" data-toggle="tooltip" data-placement="top" title="" data-original-title="Detailed image comes from the center of your photos" webkitdirectory> -->
+          <label class="btn btn-primary blue accent-1" data-toggle="tooltip" data-placement="top" title="" data-original-title="Detailed image comes from the center of your photos">
+              Browse <input type="file" id="choose_dir" style="display: none;" multiple>
+          </label>
         </div>
       </div>
     </div>
@@ -208,7 +213,11 @@ canvas {
           <canvas id="LogoCanvas" class="card-img-bottom text-center"></canvas>
         </div>
         <div class="card-btn text-center">
-          <button id="choose_logo" class="btn btn-primary blue accent-1" data-toggle="tooltip" data-placement="top" title="" data-original-title="Logo will be resized to a maximum 200x200px">Choose logo</button>
+          <!-- <button id="choose_logo" class="btn btn-primary blue accent-1" data-toggle="tooltip" data-placement="top" title="" data-original-title="Logo will be resized to a maximum 200x200px">Choose logo</button> -->
+          <!-- <input id="choose_logo" type="file" name="file" class="btn btn-primary blue accent-1" data-toggle="tooltip" data-placement="top" title="" data-original-title="Logo will be resized to a maximum 200x200px"/> -->
+          <label class="btn btn-primary blue accent-1" data-toggle="tooltip" data-placement="top" title="" data-original-title="Logo will be resized to a maximum 200x200px">
+              Browse <input type="file" id="choose_logo" style="display: none;">
+          </label>
         </div>
       </div>
     </div>
@@ -257,8 +266,6 @@ canvas {
               <a class="dropdown-item">Julia</a>
               -
               <a class="dropdown-item">Kids Azure</a>
-              -
-              <a class="dropdown-item">Kids Leggings</a>
               -
               <a class="dropdown-item">Leggings</a>
               -
@@ -316,15 +323,29 @@ canvas {
               -
               <a class="dropdown-item">3XL</a>
               -
-              <a class="dropdown-item">Tween Kids</a>
+              <a class="dropdown-item">Tween</a>
               -
               <a class="dropdown-item">OS</a>
               -
               <a class="dropdown-item">TC</a>
               -
-              <a class="dropdown-item">Kids S/M</a>
+              <a class="dropdown-item">S/M</a>
               -
-              <a class="dropdown-item">Kids L/XL</a>
+              <a class="dropdown-item">L/XL</a>
+              -
+              <a class="dropdown-item">2</a>
+              -
+              <a class="dropdown-item">4</a>
+              -
+              <a class="dropdown-item">6</a>
+              -
+              <a class="dropdown-item">8</a>
+              -
+              <a class="dropdown-item">10</a>
+              -
+              <a class="dropdown-item">12</a>
+              -
+              <a class="dropdown-item">14</a>
             </div>
           </div>
           <p id="SizeChose" class="fontface"></p>
