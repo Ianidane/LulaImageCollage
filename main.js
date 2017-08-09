@@ -1,6 +1,7 @@
 const {app, BrowserWindow} = require('electron')
 const path = require('path')
 const url = require('url')
+var dialog = app.dialog;
 
 // Keep a global reference of the window object, if you don't, the window will
 // be closed automatically when the JavaScript object is garbage collected.
@@ -11,7 +12,7 @@ function createWindow () {
   // win = new BrowserWindow({width: 1200, height: 950},webPreferences: {nodeIntegration: false})
   win = new BrowserWindow({
   webPreferences: {
-    nodeIntegration: false,
+    nodeIntegration: true,
   },width: 1200, height: 950
 });
   // and load the index.html of the app.
@@ -22,7 +23,7 @@ function createWindow () {
   }))
 
   // Open the DevTools.
-  // win.webContents.openDevTools()
+  //win.webContents.openDevTools()
 
   // Emitted when the window is closed.
   win.on('closed', () => {
@@ -42,9 +43,9 @@ app.on('ready', createWindow)
 app.on('window-all-closed', () => {
   // On macOS it is common for applications and their menu bar
   // to stay active until the user quits explicitly with Cmd + Q
-  if (process.platform !== 'darwin') {
+  //if (process.platform !== 'darwin') {
     app.quit()
-  }
+  //}
 })
 
 app.on('activate', () => {
@@ -57,3 +58,4 @@ app.on('activate', () => {
 
 // In this file you can include the rest of your app's specific main process
 // code. You can also put them in separate files and require them here.
+// var appjs = require('./js/app.js')

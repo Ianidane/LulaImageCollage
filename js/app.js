@@ -1,3 +1,8 @@
+window.jQuery = window.$ = require('jquery');
+var app = require('electron').remote;
+var dialog = app.dialog;
+var fs = require('fs');
+var imagesLoaded = require('imagesloaded')
 
 var chosenEntry = null;
 var LogoCheck = document.querySelector('#ChkLogo');
@@ -30,6 +35,9 @@ var FontSize = "";
 var TextColor = "#fff";
 var body = $("body");
 var Orientation = "";
+
+
+
 
 function errorHandler(e) {
   console.error(e);
@@ -119,8 +127,7 @@ function loadLogoFromFile(file) {
 }
 
 function loadImageFromFile(file) {
-  ResizeImage(file).then(function(res){
-  })
+  ResizeImage(file);
 }
 
 function loadLogoFromURL(url) {
@@ -506,6 +513,46 @@ $( document ).ready(function() {
 
 });
 
+document.ondragover = document.ondrop = (ev) => {
+  ev.preventDefault()
+}
+
+document.body.ondrop = (ev) => {
+  //console.log(ev.dataTransfer.files)
+  ev.preventDefault()
+  var files = ev.dataTransfer.files;
+  console.log(files);
+  body.addClass("loading");
+  if (files == ""){
+    body.removeClass("loading");
+  }
+  PhotoAmount = files.length;
+  // Loop through the FileList and render image files as thumbnails.
+  for (var i = 0, f; f = files[i]; i++) {
+
+    // Only process image files.
+    if (!f.type.match('image.*')) {
+      PhotoAmount--;
+      continue;
+    }
+
+    var reader = new FileReader();
+
+    // Closure to capture the file information.
+    reader.onload = (function(theFile) {
+      return function(e) {
+        console.log(theFile.type);
+        loadImageFromFile(theFile);
+      };
+    })(f);
+
+    // Read in the image file as a data URL.
+    reader.readAsDataURL(f);
+  }
+  document.getElementById("file_path").value= PhotoAmount+" photos selected";
+  //console.log(ev.dataTransfer.files[0].path)
+}
+
 
 
 
@@ -560,11 +607,13 @@ document.getElementById('choose_dir').addEventListener('change', function(evt){
   if (evt.target.files == ""){
     body.removeClass("loading");
   }
+  PhotoAmount = files.length;
   // Loop through the FileList and render image files as thumbnails.
   for (var i = 0, f; f = files[i]; i++) {
 
     // Only process image files.
     if (!f.type.match('image.*')) {
+      PhotoAmount--;
       continue;
     }
 
@@ -578,7 +627,6 @@ document.getElementById('choose_dir').addEventListener('change', function(evt){
         // span.innerHTML = ['<img class="thumb" src="', e.target.result,
         //                   '" title="', escape(theFile.name), '"/>'].join('');
         // document.getElementById('list').insertBefore(span, null);
-        PhotoAmount = i;
         console.log(theFile);
         loadImageFromFile(theFile);
       };
@@ -587,8 +635,34 @@ document.getElementById('choose_dir').addEventListener('change', function(evt){
     // Read in the image file as a data URL.
     reader.readAsDataURL(f);
   }
+  document.getElementById("file_path").value= PhotoAmount+" photos selected";
   }, false);
 
+
+// savePNGButton.addEventListener('click', function(e) {
+//   var zip = new JSZip();
+//   if (WatermarkText == ""){
+//     var img = zip.folder("images");
+//   } else {
+//     var img = zip.folder(WatermarkText);
+//   }
+//   $(".WatermarkPhoto").each(function(index) {
+//    imgsrc = this.src;
+//    var DataURL = imgsrc.replace('data:image/png;base64,','');
+//    img.file(WatermarkText+index+".png", DataURL, {base64: true});
+//   });
+//   zip.generateAsync({type:"blob"})
+//   .then(function(content) {
+//       if (WatermarkText == ""){
+//         saveAs(content, "RoeLagePhoto.zip");
+//       } else {
+//         saveAs(content, WatermarkText+".zip");
+//       }
+//   });
+// //   zip.generateAsync({type:"base64"}).then(function (base64) {
+// //     location.href="data:application/zip;base64," + base64;
+// // });
+// });
 
 savePNGButton.addEventListener('click', function(e) {
   var zip = new JSZip();
@@ -602,11 +676,42 @@ savePNGButton.addEventListener('click', function(e) {
    var DataURL = imgsrc.replace('data:image/png;base64,','');
    img.file(WatermarkText+index+".png", DataURL, {base64: true});
   });
-  zip.generateAsync({type:"blob"})
-  .then(function(content) {
-      saveAs(content, WatermarkText+".zip");
-  });
+  // zip.file("file", content);
+  // ... and other manipulations
+  if (WatermarkText == ""){
+    dialog.showSaveDialog({title: 'RoeLage',defaultPath: '~/RoeLagePhoto.zip',extensions: ['zip']},(fileName) => {
+      if (fileName === undefined){
+          console.log("You didn't save the file");
+          return;
+      }
+    zip
+    .generateNodeStream({type:'nodebuffer',streamFiles:true})
+    .pipe(fs.createWriteStream(fileName))
+    .on('finish', function () {
+        // JSZip generates a readable stream with a "end" event,
+        // but is piped here in a writable stream which emits a "finish" event.
+        console.log("zip written.");
+    });
+    });
+  } else {
+    dialog.showSaveDialog({title: 'RoeLage',defaultPath: '~/'+WatermarkText+'.zip',extensions: ['zip']},(fileName) => {
+      if (fileName === undefined){
+          console.log("You didn't save the file");
+          return;
+      }
+    zip
+    .generateNodeStream({type:'nodebuffer',streamFiles:true})
+    .pipe(fs.createWriteStream(fileName))
+    .on('finish', function () {
+        // JSZip generates a readable stream with a "end" event,
+        // but is piped here in a writable stream which emits a "finish" event.
+        console.log("zip written.");
+    });
+    });
+  }
 });
+
+
 
 saveJPGButton.addEventListener('click', function(e) {
   var zip = new JSZip();
@@ -628,16 +733,48 @@ saveJPGButton.addEventListener('click', function(e) {
       });
   });
   $('#JPGContainer').imagesLoaded( function() {
-    zip.generateAsync({type:"blob"})
-    .then(function(content) {
-        saveAs(content, WatermarkText+".zip");
-    });
+    if (WatermarkText == ""){
+      dialog.showSaveDialog({title: 'RoeLage',defaultPath: '~/RoeLagePhoto.zip',extensions: ['zip']},(fileName) => {
+        if (fileName === undefined){
+            console.log("You didn't save the file");
+            return;
+        }
+      zip
+      .generateNodeStream({type:'nodebuffer',streamFiles:true})
+      .pipe(fs.createWriteStream(fileName))
+      .on('finish', function () {
+          // JSZip generates a readable stream with a "end" event,
+          // but is piped here in a writable stream which emits a "finish" event.
+          console.log("zip written.");
+      });
+      });
+    } else {
+      dialog.showSaveDialog({title: 'RoeLage',defaultPath: '~/'+WatermarkText+'.zip',extensions: ['zip']},(fileName) => {
+        if (fileName === undefined){
+            console.log("You didn't save the file");
+            return;
+        }
+      zip
+      .generateNodeStream({type:'nodebuffer',streamFiles:true})
+      .pipe(fs.createWriteStream(fileName))
+      .on('finish', function () {
+          // JSZip generates a readable stream with a "end" event,
+          // but is piped here in a writable stream which emits a "finish" event.
+          console.log("zip written.");
+      });
+      });
+    }
   });
 });
 
 RunButton.addEventListener('click', function(e) {
   if (document.getElementById('file_path').value == ""){
     //some alert
+    var notification = new Notification('No photos found!', {
+      body: "Please select photos to process",
+      icon: "images/AppIcon.png"
+    });
+    return;
   }
   $('.WatermarkCog').css("display","block");
   if( document.getElementById('watermarked').innerHTML !== "" ) {

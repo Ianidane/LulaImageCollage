@@ -1,47 +1,12 @@
 {
   "name": "RoeLage",
-  "version": "0.0.1",
+  "version": "0.0.11",
   "license": "MIT",
   "description": "RoeLage",
   "author": "Ian MacLean <ianidane1989@gmail.com>",
   "main": "./main.js",
-  "scripts": {
-    "postinstall": "install-app-deps",
-    "start": "npm install && electron ./app",
-    "pack": "build --dir",
-    "dist": "build"
-  },
-  "build": {
-    "appId": "RoeLage",
-    "category": "public.app-category.photography",
-    "dmg": {
-      "contents": [
-        {
-          "x": 110,
-          "y": 150
-        },
-        {
-          "x": 240,
-          "y": 150,
-          "type": "link",
-          "path": "/Applications"
-        }
-      ]
-    },
-    "linux": {
-      "target": [
-        "AppImage",
-        "deb"
-      ]
-    },
-    "win": {
-      "target": "squirrel",
-      "icon": "build/images/AppIcon.ico"
-    }
-  },
-  "dependencies": {},
-  "devDependencies": {
-    "electron": "latest",
-    "electron-builder": "latest"
+  "dependencies": {
+    "imagesloaded": "^4.1.3",
+    "jquery": "^3.2.1"
   }
 }
