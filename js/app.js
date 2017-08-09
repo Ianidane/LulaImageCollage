@@ -434,13 +434,21 @@ function MakeZoomedImage(callback){
           //begin watermarking
           var t = $("<div id='container"+index+"' class='WatermarkPhotoContainer'></div>");
           $('#watermarked').append(t);
-          watermark([cropel[index].src, img])
-          .image(watermark.image.upperRight())
-          .render()
-          .image(watermark.text.upperLeft(WatermarkText, FontSize+'px '+FontSelect, TextColor, 0.0, 48))
-          .load([cropedel[index].src])
-          .image(watermark.image.lowerLeft())
-          .then(image => document.getElementById('container'+index).appendChild(image).setAttribute("class", "WatermarkPhoto materialboxed responsive-img"));
+          if (document.getElementById('chkCropImg').checked == true){
+            watermark([cropel[index].src, img])
+            .image(watermark.image.upperRight())
+            .render()
+            .image(watermark.text.upperLeft(WatermarkText, FontSize+'px '+FontSelect, TextColor, 0.0, 48))
+            .load([cropedel[index].src])
+            .image(watermark.image.lowerLeft())
+            .then(image => document.getElementById('container'+index).appendChild(image).setAttribute("class", "WatermarkPhoto materialboxed responsive-img"));
+          } else {
+            watermark([cropel[index].src, img])
+            .image(watermark.image.upperRight())
+            .render()
+            .image(watermark.text.upperLeft(WatermarkText, FontSize+'px '+FontSelect, TextColor, 0.0, 48))
+            .then(image => document.getElementById('container'+index).appendChild(image).setAttribute("class", "WatermarkPhoto materialboxed responsive-img"));
+          }
     });
 
     return callback(1);

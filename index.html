@@ -190,8 +190,8 @@ canvas {
   <div class="row top-buffer">
     <div class="col-md-6">
 
-      <div class="card #9e9e9e grey">
-        <div class="card-content white-text text-center">
+      <div class="card #9e9e9e grey" style="height:300.77;">
+        <div class="card-content white-text text-center" style="height: 218px;">
             <span class="card-title">Choose one or multiple photos at once</span><br>
             <input type="text" id="file_path" placeholder= "Number of photos selected" readonly>
         </div>
@@ -202,6 +202,7 @@ canvas {
           <label class="btn btn-primary blue accent-1" data-toggle="tooltip" data-placement="top" title="" data-original-title="Detailed image comes from the center of your photos">
               Browse <input type="file" id="choose_dir" style="display: none;" multiple>
           </label>
+          <input type="checkbox" name="chkCropImg" id="chkCropImg" value="Create detailed close up?" checked>Create detailed close up?</input>
         </div>
       </div>
     </div>
@@ -370,7 +371,7 @@ canvas {
       </div>
 
     <div class="col-md-6">
-      <div class="card #9e9e9e grey">
+      <div class="card #9e9e9e grey" style="height:241;">
         <div class="card-content white-text text-center">
             <span class="card-title">Choose font, size and color</span><br>
         </div>
