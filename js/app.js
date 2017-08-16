@@ -2,7 +2,7 @@ window.jQuery = window.$ = require('jquery');
 var app = require('electron').remote;
 var dialog = app.dialog;
 var fs = require('fs');
-var imagesLoaded = require('imagesloaded')
+var imagesLoaded = require('imagesloaded');
 
 var chosenEntry = null;
 var LogoCheck = document.querySelector('#ChkLogo');
@@ -497,8 +497,9 @@ $( document ).ready(function() {
 
 
 
-  $(".style a").click( function() {
-    Type = $(this).text();
+  $("#style").click( function() {
+    Type = $('.dropdown-content li a.selectedLi').text();
+    //Type = $('.dropdown-content li a.selectedLi').text()
     $('#StyleChose').html(Type);
     console.log(Type);
   });
@@ -515,8 +516,6 @@ $( document ).ready(function() {
     $('#FontChose').html(FontSelect);
     //console.log(FontSelect);
   });
-
-   $('[data-toggle="tooltip"]').tooltip({animation: true, delay: {show: 300, hide: 300}});
 
 
 });
