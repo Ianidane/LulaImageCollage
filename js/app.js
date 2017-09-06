@@ -427,6 +427,10 @@ function CropAction(){
 }
 
 function MakeZoomedImage(callback){
+  if (FontSize == ''){
+    FontSize = "48";
+  }
+  console.log(FontSize);
   $.each(entries, function( index, value ) {
     var cropel = document.querySelectorAll('#finalimg');
     var cropedel = document.querySelectorAll('#croped');
@@ -486,35 +490,44 @@ $( document ).ready(function() {
   });
 
   //$('#font').fontselect();
-  $("#SlideFontSize").slider({
-    min: 10,
-    max: 120,
-    step: 1,
-    value: 48,
-    orientation: 'horizontal'
-  });
+  // $("#SlideFontSize").slider({
+  //   min: 10,
+  //   max: 120,
+  //   step: 1,
+  //   value: 48,
+  //   orientation: 'horizontal'
+  // });
+
+  //$(document).ready(function () {
+  $('select').material_select();
+  //});
 
 
 
 
-  $("#style").click( function() {
-    Type = $('.dropdown-content li a.selectedLi').text();
-    //Type = $('.dropdown-content li a.selectedLi').text()
-    $('#StyleChose').html(Type);
+  $('#SlideFontSize').on('change', function () {
+    FontSize = this.value;
+    //$('#StyleChose').html(Type);
+    console.log(FontSize);
+  })
+
+  $('#style').on('change', function () {
+    Type = this.value;
+    //$('#StyleChose').html(Type);
     console.log(Type);
-  });
+  })
 
-  $(".size a").click( function() {
-    Size = $(this).text();
-    $('#SizeChose').html(Size);
+  $("#size").on('change', function () {
+    Size = $(this).val();
+    //$('#SizeChose').html(Size);
     console.log(Size);
   });
 
-  $(".font a").click( function() {
-    FontSelect = $(this).text();
-    $("<style> .fontface{font-family:'"+FontSelect+"';} </style>").appendTo(document.head);
-    $('#FontChose').html(FontSelect);
-    //console.log(FontSelect);
+  $("#font").on('change', function () {
+    FontSelect = $(this).val();
+    $("<style> .FontDiv {font-family:'"+FontSelect+"';} </style>").appendTo(document.head);
+    //$('#FontChose').html(FontSelect);
+    console.log(FontSelect);
   });
 
 
@@ -802,7 +815,7 @@ RunButton.addEventListener('click', function(e) {
     console.log(WatermarkText);
   }
   //Font = FontSelect;
-  FontSize = $("#SlideFontSize").slider("getValue");
+  //FontSize = $("#SlideFontSize").slider("getValue");
 
   //CropAction();
 
