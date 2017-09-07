@@ -13,7 +13,7 @@ function createWindow () {
   win = new BrowserWindow({
   webPreferences: {
     nodeIntegration: true,
-  },width: 1200, height: 950
+  },width: 1244, height: 950
 });
   // and load the index.html of the app.
   win.loadURL(url.format({
