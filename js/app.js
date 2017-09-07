@@ -859,41 +859,36 @@ ClearPicturesButton.addEventListener('click', function(e) {
 });
 
 ClearAllButton.addEventListener('click', function(e) {
-  // chrome.storage.local.remove(["chosenFile"],function(){
-  // var error = chrome.runtime.lastError;
-  //     if (error) {
-  //         console.error(error);
-  //     }
-  // })
-  $('input[type="file"]').val(null);
-  PhotoAmount = 0;
-  entries = [];
-  CropImages = [];
-  Croppers = [];
-  c = 0;
-  document.getElementById('file_path').value = "";
+  location.reload();
+  // $('input[type="file"]').val(null);
+  // PhotoAmount = 0;
+  // entries = [];
+  // CropImages = [];
+  // Croppers = [];
+  // c = 0;
+  // document.getElementById('file_path').value = "";
 
-  Type = "";
-  $('#StyleChose').html("");
+  // Type = "";
+  // $('#StyleChose').html("");
 
-  Size = "";
-  $('#SizeChose').html("");
+  // Size = "";
+  // $('#SizeChose').html("");
 
-  FontSelect = "";
-  $('#FontChose').html("");
+  // FontSelect = "";
+  // $('#FontChose').html("");
 
-  canvasContext.clearRect(0, 0, canvas.width, canvas.height);
-  $('#watermarked').empty();
-  $('#watermarked').hide();
-  $('#cropdiv').empty();
-  $('#cropeddiv').empty();
-  $('#imgresized').empty();
-  $('#cropdiv').show()
-  $('#JPGContainer').empty();
-  savePNGButton.disabled = true;
-  saveJPGButton.disabled = true;
-  $('#btnRun').disabled = false;
-  chooseDirButton.disabled = false;
+  // canvasContext.clearRect(0, 0, canvas.width, canvas.height);
+  // $('#watermarked').empty();
+  // $('#watermarked').hide();
+  // $('#cropdiv').empty();
+  // $('#cropeddiv').empty();
+  // $('#imgresized').empty();
+  // $('#cropdiv').show()
+  // $('#JPGContainer').empty();
+  // savePNGButton.disabled = true;
+  // saveJPGButton.disabled = true;
+  // $('#btnRun').disabled = false;
+  // chooseDirButton.disabled = false;
 });
 
 //loadInitialFile(launchData);
