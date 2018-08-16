@@ -1,0 +1,46 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Package xmlns="http://schemas.microsoft.com/appx/manifest/foundation/windows10" xmlns:mp="http://schemas.microsoft.com/appx/2014/phone/manifest" xmlns:uap="http://schemas.microsoft.com/appx/manifest/uap/windows10" IgnorableNamespaces="uap mp">
+  <Identity Name="47815IanMacLean.RoeLage" Version="1.1.15.0" Publisher="CN=2EE7B08D-7945-4A07-A853-4021ADD0C23D" />
+  <mp:PhoneIdentity PhoneProductId="d5fb8ca0-6a70-452a-9062-451095299f03" PhonePublisherId="00000000-0000-0000-0000-000000000000" />
+  <Properties>
+    <DisplayName>RoeLage</DisplayName>
+    <PublisherDisplayName>IanMacLean</PublisherDisplayName>
+    <Logo>images\storelogo.png</Logo>
+  </Properties>
+  <Dependencies>
+    <TargetDeviceFamily Name="Windows.Universal" MinVersion="10.0.0.0" MaxVersionTested="10.0.0.0" />
+  </Dependencies>
+  <Resources>
+    <Resource Language="x-generate" />
+  </Resources>
+  <Applications>
+    <Application Id="App" StartPage="index.html">
+      <uap:VisualElements DisplayName="RoeLage" Description="Make batch profesional collage for your photos with one click. Pick your font, color and size. Add your watermark or logo. Get a detailed close up of the fabric. Select style and size." BackgroundColor="transparent" Square150x150Logo="images\Square150x150Logo.png" Square44x44Logo="images\Square44x44Logo.png">
+        <uap:LockScreen Notification="badge" BadgeLogo="images\BadgeLogo.png" />
+        <uap:DefaultTile Wide310x150Logo="images\Wide310x150Logo.png" ShortName="RoeLage" Square310x310Logo="images\LargeTile.png" Square71x71Logo="images\SmallTile.png">
+        </uap:DefaultTile>
+        <uap:SplashScreen Image="images\splashscreen.png" />
+        <uap:InitialRotationPreference>
+          <uap:Rotation Preference="landscape" />
+          <uap:Rotation Preference="landscapeFlipped" />
+        </uap:InitialRotationPreference>
+      </uap:VisualElements>
+      <Extensions>
+        <uap:Extension Category="windows.fileOpenPicker">
+          <uap:FileOpenPicker>
+            <uap:SupportedFileTypes>
+              <uap:SupportsAnyFileType />
+            </uap:SupportedFileTypes>
+          </uap:FileOpenPicker>
+        </uap:Extension>
+        <uap:Extension Category="windows.fileSavePicker">
+          <uap:FileSavePicker>
+            <uap:SupportedFileTypes>
+              <uap:SupportsAnyFileType />
+            </uap:SupportedFileTypes>
+          </uap:FileSavePicker>
+        </uap:Extension>
+      </Extensions>
+    </Application>
+  </Applications>
+</Package>

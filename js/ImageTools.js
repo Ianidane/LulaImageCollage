@@ -1,4 +1,4 @@
-'use strict';
+﻿'use strict';
 
 if (typeof exports === "undefined") {
     var exports = {};

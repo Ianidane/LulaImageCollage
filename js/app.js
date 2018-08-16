@@ -1,8 +1,8 @@
-window.jQuery = window.$ = require('jquery');
-var app = require('electron').remote;
-var dialog = app.dialog;
-var fs = require('fs');
-var imagesLoaded = require('imagesloaded');
+﻿//window.jQuery = window.$ = require('jquery');
+//var app = require('electron').remote;
+//var dialog = app.dialog;
+//var fs = require('fs');
+//var imagesLoaded = require('imagesloaded');
 
 var chosenEntry = null;
 var LogoCheck = document.querySelector('#ChkLogo');
@@ -121,9 +121,10 @@ function loadLogoEntry(_chosenEntry) {
 }
 
 function loadLogoFromFile(file) {
-  ResizeBlob = ResizeLogo(file).then(function(res){
-    console.log(ResizeBlob);
-  })
+  //ResizeBlob = ResizeLogo(file).then(function(res){
+    //console.log(ResizeBlob);
+  //})
+  ResizeLogo(file);
 }
 
 function loadImageFromFile(file) {
@@ -134,7 +135,8 @@ function loadLogoFromURL(url) {
   clearState();
   img.onload = LogoHasLoaded;
   img.onerror = LogoHasLoaded;
-  img.src = url;
+    img.src = url;
+    console.log(img.src);
 }
 
 function loadImageFromURL(url) {
@@ -289,18 +291,18 @@ function HideDiv(){
 }
 
 function LogoHasLoaded() {
-  if (img.width && img.height) {
-  } else {
-    displayText("Image failed to load.");
-  }
+  //if (img.width && img.height) {
+  //} else {
+    //displayText("Image failed to load.");
+  //}
   drawCanvas();
 }
 
 function imageHasLoaded() {
-  if (images.width && images.height) {
-  } else {
-    displayText("Image failed to load.");
-  }
+  //if (images.width && images.height) {
+  //} else {
+    //displayText("Image failed to load.");
+  //}
   drawCanvasWatermark();
 }
 
@@ -309,7 +311,8 @@ function displayfileEntryPath(fileEntry) {
 }
 
 function displayText(text) {
-    output.textContent = text;
+    //output.textContent = text;
+    console.log(text);
 }
 
 function clearState() {
@@ -427,37 +430,45 @@ function CropAction(){
 }
 
 function MakeZoomedImage(callback){
-  if (FontSize == ''){
+  if (FontSize === ''){
     FontSize = "48";
   }
   console.log(FontSize);
   $.each(entries, function( index, value ) {
-    var cropel = document.querySelectorAll('#finalimg');
-    var cropedel = document.querySelectorAll('#croped');
+      var cropel = document.querySelectorAll('#finalimg');
+      console.log(cropel);
+      var cropedel = document.querySelectorAll('#croped');
+      console.log(cropedel);
+
 
           //begin watermarking
           var t = $("<div id='container"+index+"' class='WatermarkPhotoContainer'></div>");
-          $('#watermarked').append(t);
-          if (document.getElementById('chkCropImg').checked == true){
+      $('#watermarked').append(t);
+      console.log(img);
+      console.log(cropel[index].src);
+      if (document.getElementById('chkCropImg').checked == true) {
+            console.log("CropImg checked");
             watermark([cropel[index].src, img])
-            .image(watermark.image.upperRight())
+            .blob(watermark.image.upperRight())
             .render()
-            .image(watermark.text.upperLeft(WatermarkText, FontSize+'px '+FontSelect, TextColor, 0.0, 48))
+            .image(watermark.text.upperLeft(WatermarkText, FontSize +'px '+FontSelect, TextColor, 0.0, 48))
             .load([cropedel[index].src])
             .image(watermark.image.lowerLeft())
             .then(image => document.getElementById('container'+index).appendChild(image).setAttribute("class", "WatermarkPhoto materialboxed responsive-img"));
-          } else {
+      } else {
+            console.log("CropImg NOT checked");
             watermark([cropel[index].src, img])
-            .image(watermark.image.upperRight())
+            .blob(watermark.image.upperRight())
             .render()
-            .image(watermark.text.upperLeft(WatermarkText, FontSize+'px '+FontSelect, TextColor, 0.0, 48))
-            .then(image => document.getElementById('container'+index).appendChild(image).setAttribute("class", "WatermarkPhoto materialboxed responsive-img"));
-          }
+            .image(watermark.text.upperLeft(WatermarkText, FontSize + 'px ' + FontSelect, TextColor, 0.0, 48))
+            .then(image => document.getElementById('container' + index).appendChild(image).setAttribute("class", "WatermarkPhoto materialboxed responsive-img"));
+      }
     });
 
     return callback(1);
 
 }
+
 
 function convertImageToCanvas(index,imagePNG) {
   var canvas = document.getElementById('JPG'+index);
@@ -475,60 +486,115 @@ function convertImageToCanvas(index,imagePNG) {
 
 
 
-$( document ).ready(function() {
-  $("#showPalette").spectrum({
-    showPalette: true,
-    palette: [
-        ['#FED141', '#FF9D6E', '#F67599'],
-        ['#DD7FD3', '#9595D2', '#8BB8E8'],
-        ['#64CCC9', '#888B8D']
-    ],
-    change: function(color) {
-      TextColor = color.toHexString();
-      console.log(TextColor);
-    }
-  });
+//$( document ).ready(function() {
+//  $("#showPalette").spectrum({
+//    showPalette: true,
+//    palette: [
+//        ['#FED141', '#FF9D6E', '#F67599'],
+//        ['#DD7FD3', '#9595D2', '#8BB8E8'],
+//        ['#64CCC9', '#888B8D']
+//    ],
+//    change: function(color) {
+//      TextColor = color.toHexString();
+//      console.log(TextColor);
+//    }
+//  });
 
-  //$('#font').fontselect();
-  // $("#SlideFontSize").slider({
-  //   min: 10,
-  //   max: 120,
-  //   step: 1,
-  //   value: 48,
-  //   orientation: 'horizontal'
-  // });
+//  //$('#font').fontselect();
+//  // $("#SlideFontSize").slider({
+//  //   min: 10,
+//  //   max: 120,
+//  //   step: 1,
+//  //   value: 48,
+//  //   orientation: 'horizontal'
+//  // });
 
-  //$(document).ready(function () {
-  $('select').material_select();
-  //});
-
-
+  
+//  //$('select').material_select();
+ 
 
 
-  $('#SlideFontSize').on('change', function () {
-    FontSize = this.value;
-    //$('#StyleChose').html(Type);
-    console.log(FontSize);
-  })
 
-  $('#style').on('change', function () {
-    Type = this.value;
-    //$('#StyleChose').html(Type);
-    console.log(Type);
-  })
 
-  $("#size").on('change', function () {
-    Size = $(this).val();
-    //$('#SizeChose').html(Size);
-    console.log(Size);
-  });
+//  $('#SlideFontSize').on('change', function () {
+//    FontSize = this.value;
+//    //$('#StyleChose').html(Type);
+//    console.log(FontSize);
+//  })
 
-  $("#font").on('change', function () {
-    FontSelect = $(this).val();
-    $("<style> .FontDiv {font-family:'"+FontSelect+"';} </style>").appendTo(document.head);
-    //$('#FontChose').html(FontSelect);
-    console.log(FontSelect);
-  });
+//  $('#style').on('change', function () {
+//    Type = this.value;
+//    //$('#StyleChose').html(Type);
+//    console.log(Type);
+//  })
+
+//  $("#size").on('change', function () {
+//    Size = $(this).val();
+//    //$('#SizeChose').html(Size);
+//    console.log(Size);
+//  });
+
+//  $("#font").on('change', function () {
+//    FontSelect = $(this).val();
+//    $("<style> .FontDiv {font-family:'"+FontSelect+"';} </style>").appendTo(document.head);
+//    //$('#FontChose').html(FontSelect);
+//    console.log(FontSelect);
+//  });
+
+
+//});
+
+$(document).ready(function () {
+    $("#showPalette").spectrum({
+        showPalette: true,
+        palette: [
+            ['#FED141', '#FF9D6E', '#F67599'],
+            ['#DD7FD3', '#9595D2', '#8BB8E8'],
+            ['#64CCC9', '#888B8D']
+        ],
+        change: function (color) {
+            TextColor = color.toHexString();
+            console.log(TextColor);
+        }
+    });
+
+    //$('#font').fontselect();
+    $("#SlideFontSize").slider({
+        min: 10,
+        max: 120,
+        step: 1,
+        value: 48,
+        orientation: 'horizontal'
+    });
+    $('#SlideFontSize').on('change', function () {
+        FontSize = this.value;
+        //$('#StyleChose').html(Type);
+        console.log(FontSize);
+    })
+
+
+
+
+    $(".style a").click(function () {
+        Type = $(this).text();
+        $('#StyleChose').html(Type);
+        console.log(Type);
+    });
+
+    $(".size a").click(function () {
+        Size = $(this).text();
+        $('#SizeChose').html(Size);
+        console.log(Size);
+    });
+
+    $(".font a").click(function () {
+        FontSelect = $(this).text();
+        $("<style> .fontface{font-family:'" + FontSelect + "';} </style>").appendTo(document.head);
+        $('#FontChose').html(FontSelect);
+        //console.log(FontSelect);
+    });
+
+    $('[data-toggle="tooltip"]').tooltip({ animation: true, delay: { show: 300, hide: 300 } });
 
 
 });
@@ -684,112 +750,207 @@ document.getElementById('choose_dir').addEventListener('change', function(evt){
 // // });
 // });
 
-savePNGButton.addEventListener('click', function(e) {
-  var zip = new JSZip();
-  if (WatermarkText == ""){
-    var img = zip.folder("images");
-  } else {
-    var img = zip.folder(WatermarkText);
-  }
-  $(".WatermarkPhoto").each(function(index) {
-   imgsrc = this.src;
-   var DataURL = imgsrc.replace('data:image/png;base64,','');
-   img.file(WatermarkText+index+".png", DataURL, {base64: true});
-  });
-  // zip.file("file", content);
-  // ... and other manipulations
-  if (WatermarkText == ""){
-    dialog.showSaveDialog({title: 'RoeLage',defaultPath: '~/RoeLagePhoto.zip',extensions: ['zip']},(fileName) => {
-      if (fileName === undefined){
-          console.log("You didn't save the file");
-          return;
-      }
-    zip
-    .generateNodeStream({type:'nodebuffer',streamFiles:true})
-    .pipe(fs.createWriteStream(fileName))
-    .on('finish', function () {
-        // JSZip generates a readable stream with a "end" event,
-        // but is piped here in a writable stream which emits a "finish" event.
-        console.log("zip written.");
+//savePNGButton.addEventListener('click', function(e) {
+//  var zip = new JSZip();
+//  if (WatermarkText == ""){
+//    var img = zip.folder("images");
+//  } else {
+//    var img = zip.folder(WatermarkText);
+//  }
+//  $(".WatermarkPhoto").each(function(index) {
+//   imgsrc = this.src;
+//   var DataURL = imgsrc.replace('data:image/png;base64,','');
+//   img.file(WatermarkText+index+".png", DataURL, {base64: true});
+//  });
+//  // zip.file("file", content);
+//  // ... and other manipulations
+//  if (WatermarkText == ""){
+//    dialog.showSaveDialog({title: 'RoeLage',defaultPath: '~/RoeLagePhoto.zip',extensions: ['zip']},(fileName) => {
+//      if (fileName === undefined){
+//          console.log("You didn't save the file");
+//          return;
+//      }
+//    zip
+//    .generateNodeStream({type:'nodebuffer',streamFiles:true})
+//    .pipe(fs.createWriteStream(fileName))
+//    .on('finish', function () {
+//        // JSZip generates a readable stream with a "end" event,
+//        // but is piped here in a writable stream which emits a "finish" event.
+//        console.log("zip written.");
+//    });
+//    });
+//  } else {
+//    dialog.showSaveDialog({title: 'RoeLage',defaultPath: '~/'+WatermarkText+'.zip',extensions: ['zip']},(fileName) => {
+//      if (fileName === undefined){
+//          console.log("You didn't save the file");
+//          return;
+//      }
+//    zip
+//    .generateNodeStream({type:'nodebuffer',streamFiles:true})
+//    .pipe(fs.createWriteStream(fileName))
+//    .on('finish', function () {
+//        // JSZip generates a readable stream with a "end" event,
+//        // but is piped here in a writable stream which emits a "finish" event.
+//        console.log("zip written.");
+//    });
+//    });
+//  }
+//});
+
+
+
+//saveJPGButton.addEventListener('click', function(e) {
+//  var zip = new JSZip();
+//  if (WatermarkText == ""){
+//    var img = zip.folder("images");
+//  } else {
+//    var img = zip.folder(WatermarkText);
+//  }
+//  $(".WatermarkPhoto").each(function(index) {
+//      $('#JPGContainer').prepend('<canvas id="JPG'+index+'" />');
+//      imgsrc = this.src;
+//      //console.log(imgsrc);
+//      var imageJPG = convertImageToCanvas(index,imgsrc);
+//      //console.log(imageJPG);
+//      $('#JPGContainer').imagesLoaded( function() {
+//        var imageJPGURL = imageJPG.toDataURL("image/jpeg");
+//        var DataURL = imageJPGURL.replace('data:image/jpeg;base64,','');
+//        img.file(WatermarkText+index+".jpg", DataURL, {base64: true});
+//      });
+//  });
+//  $('#JPGContainer').imagesLoaded( function() {
+//    if (WatermarkText == ""){
+//      dialog.showSaveDialog({title: 'RoeLage',defaultPath: '~/RoeLagePhoto.zip',extensions: ['zip']},(fileName) => {
+//        if (fileName === undefined){
+//            console.log("You didn't save the file");
+//            return;
+//        }
+//      zip
+//      .generateNodeStream({type:'nodebuffer',streamFiles:true})
+//      .pipe(fs.createWriteStream(fileName))
+//      .on('finish', function () {
+//          // JSZip generates a readable stream with a "end" event,
+//          // but is piped here in a writable stream which emits a "finish" event.
+//          console.log("zip written.");
+//      });
+//      });
+//    } else {
+//      dialog.showSaveDialog({title: 'RoeLage',defaultPath: '~/'+WatermarkText+'.zip',extensions: ['zip']},(fileName) => {
+//        if (fileName === undefined){
+//            console.log("You didn't save the file");
+//            return;
+//        }
+//      zip
+//      .generateNodeStream({type:'nodebuffer',streamFiles:true})
+//      .pipe(fs.createWriteStream(fileName))
+//      .on('finish', function () {
+//          // JSZip generates a readable stream with a "end" event,
+//          // but is piped here in a writable stream which emits a "finish" event.
+//          console.log("zip written.");
+//      });
+//      });
+//    }
+//  });
+//});
+
+savePNGButton.addEventListener('click', function (e) {
+    var zip = new JSZip();
+    if (WatermarkText === "") {
+        ZipFolder = zip.folder("RoeLageImages");
+    } else {
+        ZipFolder = zip.folder(WatermarkText);
+    }
+    $(".WatermarkPhoto").each(function (index) {
+        imgsrc = this.src;
+        var DataURL = imgsrc.replace('data:image/png;base64,', '');
+        ZipFolder.file(WatermarkText + index + ".png", DataURL, { base64: true });
+
     });
-    });
-  } else {
-    dialog.showSaveDialog({title: 'RoeLage',defaultPath: '~/'+WatermarkText+'.zip',extensions: ['zip']},(fileName) => {
-      if (fileName === undefined){
-          console.log("You didn't save the file");
-          return;
-      }
-    zip
-    .generateNodeStream({type:'nodebuffer',streamFiles:true})
-    .pipe(fs.createWriteStream(fileName))
-    .on('finish', function () {
-        // JSZip generates a readable stream with a "end" event,
-        // but is piped here in a writable stream which emits a "finish" event.
-        console.log("zip written.");
-    });
-    });
-  }
+
+    zip.generateAsync({ type: "uint8array", streamFiles: "true" })
+        .then(function (content) {
+            console.log(content);
+            var savePicker = new Windows.Storage.Pickers.FileSavePicker();
+            savePicker.suggestedStartLocation = Windows.Storage.Pickers.PickerLocationId.documentsLibrary;
+            savePicker.fileTypeChoices.insert("ZIP archive", [".zip"]);
+            if (WatermarkText == "") {
+                savePicker.suggestedFileName = "RoeLagePhotos.zip";
+            } else {
+                savePicker.suggestedFileName = WatermarkText + ".zip";
+            }
+            savePicker.pickSaveFileAsync().then(function (file) {
+                if (file) {
+                    Windows.Storage.CachedFileManager.deferUpdates(file);
+                    Windows.Storage.FileIO.writeBytesAsync(file, content).done(function () {
+                        Windows.Storage.CachedFileManager.completeUpdatesAsync(file).done(function (updateStatus) {
+                            if (updateStatus === Windows.Storage.Provider.FileUpdateStatus.complete) {
+                                console.log("File " + file.name + " was saved.");
+                            } else {
+                                console.log("File " + file.name + " couldn't be saved.");
+                            }
+                        });
+                    });
+                } else {
+                    console.log("Operation cancelled.");
+                }
+            });
+        });
 });
 
-
-
-saveJPGButton.addEventListener('click', function(e) {
-  var zip = new JSZip();
-  if (WatermarkText == ""){
-    var img = zip.folder("images");
-  } else {
-    var img = zip.folder(WatermarkText);
-  }
-  $(".WatermarkPhoto").each(function(index) {
-      $('#JPGContainer').prepend('<canvas id="JPG'+index+'" />');
-      imgsrc = this.src;
-      //console.log(imgsrc);
-      var imageJPG = convertImageToCanvas(index,imgsrc);
-      //console.log(imageJPG);
-      $('#JPGContainer').imagesLoaded( function() {
-        var imageJPGURL = imageJPG.toDataURL("image/jpeg");
-        var DataURL = imageJPGURL.replace('data:image/jpeg;base64,','');
-        img.file(WatermarkText+index+".jpg", DataURL, {base64: true});
-      });
-  });
-  $('#JPGContainer').imagesLoaded( function() {
-    if (WatermarkText == ""){
-      dialog.showSaveDialog({title: 'RoeLage',defaultPath: '~/RoeLagePhoto.zip',extensions: ['zip']},(fileName) => {
-        if (fileName === undefined){
-            console.log("You didn't save the file");
-            return;
-        }
-      zip
-      .generateNodeStream({type:'nodebuffer',streamFiles:true})
-      .pipe(fs.createWriteStream(fileName))
-      .on('finish', function () {
-          // JSZip generates a readable stream with a "end" event,
-          // but is piped here in a writable stream which emits a "finish" event.
-          console.log("zip written.");
-      });
-      });
+saveJPGButton.addEventListener('click', function (e) {
+    var zip = new JSZip();
+    if (WatermarkText === "") {
+        JPGZipFolder = zip.folder("RoeLageImages");
     } else {
-      dialog.showSaveDialog({title: 'RoeLage',defaultPath: '~/'+WatermarkText+'.zip',extensions: ['zip']},(fileName) => {
-        if (fileName === undefined){
-            console.log("You didn't save the file");
-            return;
-        }
-      zip
-      .generateNodeStream({type:'nodebuffer',streamFiles:true})
-      .pipe(fs.createWriteStream(fileName))
-      .on('finish', function () {
-          // JSZip generates a readable stream with a "end" event,
-          // but is piped here in a writable stream which emits a "finish" event.
-          console.log("zip written.");
-      });
-      });
+        JPGZipFolder = zip.folder(WatermarkText);
     }
-  });
+    $(".WatermarkPhoto").each(function (index) {
+        $('#JPGContainer').prepend('<canvas id="JPG' + index + '" />');
+        imgsrc = this.src;
+        //console.log(imgsrc);
+        var imageJPG = convertImageToCanvas(index, imgsrc);
+        //console.log(imageJPG);
+        $('#JPGContainer').imagesLoaded(function () {
+            var imageJPGURL = imageJPG.toDataURL("image/jpeg");
+            var DataURL = imageJPGURL.replace('data:image/jpeg;base64,', '');
+            JPGZipFolder.file(WatermarkText + index + ".jpg", DataURL, { base64: true });
+        });
+    });
+    $('#JPGContainer').imagesLoaded(function () {
+        zip.generateAsync({ type: "uint8array", streamFiles: "true" })
+            .then(function (content) {
+                var savePicker = new Windows.Storage.Pickers.FileSavePicker();
+                savePicker.suggestedStartLocation = Windows.Storage.Pickers.PickerLocationId.documentsLibrary;
+                savePicker.fileTypeChoices.insert("ZIP archive", [".zip"]);
+                if (WatermarkText == "") {
+                    savePicker.suggestedFileName = "RoeLagePhotos.zip";
+                } else {
+                    savePicker.suggestedFileName = WatermarkText + ".zip";
+                }
+                savePicker.pickSaveFileAsync().then(function (file) {
+                    if (file) {
+                        Windows.Storage.CachedFileManager.deferUpdates(file);
+                        Windows.Storage.FileIO.writeBytesAsync(file, content).done(function () {
+                            Windows.Storage.CachedFileManager.completeUpdatesAsync(file).done(function (updateStatus) {
+                                if (updateStatus === Windows.Storage.Provider.FileUpdateStatus.complete) {
+                                    console.log("File " + file.name + " was saved.");
+                                } else {
+                                    console.log("File " + file.name + " couldn't be saved.");
+                                }
+                            });
+                        });
+                    } else {
+                        console.log("Operation cancelled.");
+                    }
+                });
+            });
+    });
 });
 
 RunButton.addEventListener('click', function(e) {
   if (document.getElementById('file_path').value == ""){
     //some alert
+      console.log("No photos found");
     var notification = new Notification('No photos found!', {
       body: "Please select photos to process",
       icon: "images/AppIcon.png"

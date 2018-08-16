@@ -1,4 +1,4 @@
-/*  @preserve
+﻿/*  @preserve
  *  Project: jQuery plugin Watermark
  *  Description: Add watermark on images use HTML5 and Javascript.
  *  Author: Zzbaivong (devs.forumvi.com)

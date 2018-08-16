@@ -1,381 +1,480 @@
-<html>
+﻿<html>
 <script src="js/jquery.js"></script>
-<!-- <script>window.$ = window.jQuery = require('./js/jquery.js');</script> -->
 <script src="js/cropper.js"></script>
 <link rel='stylesheet' href='css/spectrum.css' />
+<link href="css/bootstrap.min.css" rel="stylesheet">
 <link href="css/bootstrap-select.min.css" rel="stylesheet">
 <link rel="stylesheet" href="css/font-awesome.min.css">
 <link href="css/bootstrap-slider.min.css" rel="stylesheet">
-<link  href="css/cropper.css" rel="stylesheet">
-<link rel="stylesheet" href="css/materialize.min.css">
-
+<link href="css/cropper.css" rel="stylesheet">
+<link rel="stylesheet" href="css/mdb.min.css">
 <head>
-  <meta name="theme-color" content="#888b80">
-<title>RoeLage</title>
-<style>
-@font-face {
-    font-family: 'SteelFish';
-    src: url('fonts/steelfish rg.ttf');
-    font-weight: normal;
-    font-style: normal;
-}
-@font-face {
-    font-family: 'Maven Pro';
-    src: url('fonts/MavenPro-Regular.ttf');
-    font-weight: normal;
-    font-style: normal;
-}
-@font-face {
-    font-family: 'Caviar Dreams';
-    src: url('fonts/CaviarDreams.ttf');
-    font-weight: normal;
-    font-style: normal;
-}
-@font-face {
-    font-family: 'Roboto';
-    src: url('fonts/Roboto-Regular.ttf');
-    font-weight: normal;
-    font-style: normal;
-}
-@font-face {
-    font-family: 'Walkway';
-    src: url('fonts/Walkway SemiBold.ttf');
-    font-weight: normal;
-    font-style: normal;
-}
-@font-face {
-    font-family: 'Gabrielle';
-    src: url('fonts/Gabrielle.ttf');
-    font-weight: normal;
-    font-style: normal;
-}
-@font-face {
-    font-family: 'Comfortaa';
-    src: url('fonts/Comfortaa-Regular.ttf');
-    font-weight: normal;
-    font-style: normal;
-}
+    <meta name="theme-color" content="#888b80">
+    <title>RoeLage</title>
+    <style>
+             @font-face {
+                 font-family: 'SteelFish';
+                 src: url('fonts/steelfish rg.ttf');
+                 font-weight: normal;
+                 font-style: normal;
+             }
 
-body{
-  font-family:'Maven Pro';
-}
-html {
-  overflow-y:scroll;
-}
+             @font-face {
+                 font-family: 'Maven Pro';
+                 src: url('fonts/MavenPro-Regular.ttf');
+                 font-weight: normal;
+                 font-style: normal;
+             }
 
+             @font-face {
+                 font-family: 'Caviar Dreams';
+                 src: url('fonts/CaviarDreams.ttf');
+                 font-weight: normal;
+                 font-style: normal;
+             }
 
-.LoadingModal {
-    display:    none;
-    position:   fixed;
-    z-index:    1000;
-    top:        0;
-    left:       0;
-    height:     100%;
-    width:      100%;
-    background: rgba( 139, 140, 140, .6 );
-}
+             @font-face {
+                 font-family: 'Roboto';
+                 src: url('fonts/Roboto-Regular.ttf');
+                 font-weight: normal;
+                 font-style: normal;
+             }
 
-.centered {
-  position: fixed; /* or absolute */
-  top: 50%;
-  left: 50%;
-}
+             @font-face {
+                 font-family: 'Walkway';
+                 src: url('fonts/Walkway SemiBold.ttf');
+                 font-weight: normal;
+                 font-style: normal;
+             }
 
-.centered-text {
-  position: fixed; /* or absolute */
-  top: 43%;
-  left: 28%;
-}
+             @font-face {
+                 font-family: 'Gabrielle';
+                 src: url('fonts/Gabrielle.ttf');
+                 font-weight: normal;
+                 font-style: normal;
+             }
 
+             @font-face {
+                 font-family: 'Comfortaa';
+                 src: url('fonts/Comfortaa-Regular.ttf');
+                 font-weight: normal;
+                 font-style: normal;
+             }
 
-/* When the body has the loading class, we turn
-   the scrollbar off with overflow:hidden */
-body.loading {
-    overflow: hidden;
-}
+             body {
+                 font-family: 'Maven Pro';
+             }
 
-/* Anytime the body has the loading class, our
-   modal element will be visible */
-body.loading .LoadingModal {
-    display: block;
-}
+             html {
+                 overflow-y: scroll;
+             }
+
+             .modal {
+                 display: none;
+                 /*position:   fixed;*/
+                 z-index: 1000;
+                 top: 0;
+                 left: 0;
+                 /*height:     100%;
+         width:      100%;*/
+                 background: rgba( 255, 255, 255, .8 )
+                 /*url('loading.gif')*/
+                 /*50% 50%*/
+                 /*no-repeat;*/
+             }
+
+             .centered {
+                 position: fixed; /* or absolute */
+                 top: 50%;
+                 left: 50%;
+             }
+
+             .centered-text {
+                 position: fixed; /* or absolute */
+                 top: 43%;
+                 left: 28%;
+             }
 
 
-.top-buffer { margin-top:20px; }
+             /* When the body has the loading class, we turn
+        the scrollbar off with overflow:hidden */
+             body.loading {
+                 overflow: hidden;
+             }
 
-.WatermarkPhoto {
-  float: left;
-  width: 210px;
-  height: 270px;
-}
-
-.divWatermarkPhoto {
-  height: 275px;
-
-}
-
-.WatermarkPhotoContainer {
-  float: left;
-  height: 275px;
-  width: 215px;
-  font-family:'Caviar Dreams';
-}
-
-.WatermarkCog {
-  display: none;
-  margin: auto;
-}
+                 /* Anytime the body has the loading class, our
+        modal element will be visible */
+                 body.loading .modal {
+                     display: block;
+                 }
 
 
-img {
-  max-width: 100%;
-}
+             .top-buffer {
+                 margin-top: 20px;
+             }
+
+             .WatermarkPhoto {
+                 float: left;
+                 width: 210px;
+                 height: 270px;
+             }
+
+             .divWatermarkPhoto {
+                 height: 275px;
+             }
+
+             .WatermarkPhotoContainer {
+                 float: left;
+                 height: 275px;
+                 width: 215px;
+                 font-family: 'Caviar Dreams';
+             }
+
+             .WatermarkCog {
+                 display: none;
+                 margin: auto;
+             }
 
 
-canvas {
-  width: 100px;
-  height: 100px;
-}
-
-.card {
-         overflow: visible;
-     }
-
-.cropper-container {
-  height: 275px;
-  width: 215px;
-}
-
-.tooltip{
-  z-index:1;
-}
+             img {
+                 max-width: 100%;
+             }
 
 
-</style>
+             canvas {
+                 width: 100px;
+                 height: 100px;
+             }
+
+             .card {
+                 overflow: visible;
+             }
+
+             .cropper-container {
+                 height: 275px;
+                 width: 215px;
+             }
+
+             .tooltip {
+                 z-index: 1;
+             }
+    </style>
 </head>
 <body>
-<!--Navigation-->
-<div class="navbar-fixed">
-  <nav>
-    <div class="nav-wrapper pink accent-1">
-      <a href="#" class="brand-logo left"><img src="./images/AppIcon.png" alt="RoeLage" style="width:55px;height:55px;"></img></a>
-      <a href="#" class="brand-logo center">RoeLage</a>
-    </div>
-  </nav>
-</div>
-<!--/.Navigation-->
 
-<div class="container">
-  <div class="row top-buffer">
-    <div class="col s6">
-
-      <div class="card #9e9e9e grey" style="height:292;">
-        <div class="card-content white-text center" style="padding-bottom: 0px;">
-            <span class="card-title">Choose one or multiple photos</span><br>
-            <input type="text" id="file_path" placeholder= "Number of photos selected" readonly>
+    <!-- <nav class="navbar navbar-toggleable-md navbar-dark pink accent-1">
+        <div class="container">
+            <a class="navbar-brand">
+              <img src="/images/Icon.png" alt="RoeLage" style="width:45px;height:45px;"></img>
+            </a>
+            <a class="navbar-brand">
+              <h5>RoeLage</h5>
+            </a>
         </div>
-        <div class="card-action center" style=" padding-top: 0px; ">
-          <p>
-            <input type="checkbox" class="filled-in" id="chkCropImg" checked="checked" />
-            <label for="chkCropImg"><font color="white">Create detailed close up?<font></label>
-          </p>
-          <label class="btn btn-primary blue accent-1 tooltipped" data-tooltip="Detailed image comes from the center of your photos">
-              Browse <input type="file" id="choose_dir" style="display: none;" multiple>
-          </label>
+    </nav> -->
+    <!--Navigation-->
+    <nav class="navbar navbar-fixed-top z-depth-1 pink accent-1" role="navigation">
+        <div class="container">
+            <div class="navbar-header">
+                <img src="./images/AppIcon.png" alt="RoeLage" style="width:55px;height:55px;"></img>&nbsp;&nbsp;&nbsp;
+            </div>
+            <div class="navbar-header">
+                <a class="navbar-brand waves-effect waves-light ultra-bold-900" href="#">RoeLage</a>
+            </div>
+            <!-- <ul class="list-inline pull-right text-center">
+                   <li><a href="#" data-toggle="modal" data-target="#myModal" class="waves-effect waves-light"><i class="fa fa-envelope-o fa-3"></i><br>Contact</a></li>
+             </ul> -->
         </div>
-      </div>
+    </nav>
+    <!--/.Navigation-->
+    <div class="container">
+        <div class="space-50" style="height: 80px"></div>
+        <div class="row top-buffer">
+            <div class="col-md-6">
+                <div class="card #9e9e9e grey">
+                    <div class="card-content white-text text-center">
+                        <span class="card-title">Choose one or multiple photos at once</span><br>
+                        <input type="text" id="file_path" placeholder="Number of photos selected" readonly>
+                    </div>
+                    <p>
+                        <input type="checkbox" class="filled-in" id="chkCropImg" checked="checked" />
+                        <label for="chkCropImg"><font color="white">Create detailed close up?</font></label>
+                    </p>
+                    <div class="card-btn text-center">
+                        <!-- <button id="choose_dir" class="btn btn-primary blue accent-1">Directory</button> -->
+                        <!-- <button id="choose_dir" type="button" class="btn btn-primary blue accent-1" data-toggle="tooltip" data-placement="top" title="" data-original-title="Detailed image comes from the center of your photos">Directory</button> -->
+                        <!-- <input type="file" id="choose_dir" class="btn btn-primary blue accent-1" data-toggle="tooltip" data-placement="top" title="" data-original-title="Detailed image comes from the center of your photos" webkitdirectory> -->
+                        <label class="btn btn-primary blue accent-1" data-toggle="tooltip" data-placement="top" title="" data-original-title="Detailed image comes from the center of your photos">
+                            Browse <input type="file" id="choose_dir" style="display: none;" multiple>
+                        </label>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="card #9e9e9e grey text-center" id="LogoCard">
+                    <div class="card-content text-center">
+                        <h4 class="card-title">Choose a logo</h4>
+                        <canvas id="LogoCanvas" class="card-img-bottom text-center"></canvas>
+                    </div>
+                    <div class="card-btn text-center">
+                        <!-- <button id="choose_logo" class="btn btn-primary blue accent-1" data-toggle="tooltip" data-placement="top" title="" data-original-title="Logo will be resized to a maximum 200x200px">Choose logo</button> -->
+                        <!-- <input id="choose_logo" type="file" name="file" class="btn btn-primary blue accent-1" data-toggle="tooltip" data-placement="top" title="" data-original-title="Logo will be resized to a maximum 200x200px"/> -->
+                        <label class="btn btn-primary blue accent-1" data-toggle="tooltip" data-placement="top" title="" data-original-title="Logo will be resized to a maximum 200x200px">
+                            Browse <input type="file" id="choose_logo" style="display: none;">
+                        </label>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row top-buffer">
+            <div class="col-md-6">
+                <div class="card #9e9e9e grey">
+                    <div class="card-content white-text text-center">
+                        <span class="card-title">Choose the style and size</span><br>
+                    </div>
+                    <div class="card-btn text-center">
+                        <div class="dropdown">
+                            <button class="btn btn-primary dropdown-toggle blue accent-1" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                Style
+                            </button>
+                            <div class="dropdown-menu style" aria-labelledby="dropdownMenuButton">
+                                <a class="dropdown-item">Adeline</a>
+                                -
+                                <a class="dropdown-item">Amelia</a>
+                                -
+                                <a class="dropdown-item">Amy</a>
+                                -
+                                <a class="dropdown-item">Ana</a>
+                                -
+                                <a class="dropdown-item">Azure</a>
+                                -
+                                <a class="dropdown-item">Bianka</a>
+                                -
+                                <a class="dropdown-item">Bud</a>
+                                -
+                                <a class="dropdown-item">Carly</a>
+                                -
+                                <a class="dropdown-item">Cassie</a>
+                                -
+                                <a class="dropdown-item">Christy</a>
+                                -
+                                <a class="dropdown-item">Cici</a>
+                                -
+                                <a class="dropdown-item">Classic</a>
+                                -
+                                <a class="dropdown-item">Debbie</a>
+                                -
+                                <a class="dropdown-item">Gigi</a>
+                                -
+                                <a class="dropdown-item">Gracie</a>
+                                -
+                                <a class="dropdown-item">Harvey</a>
+                                -
+                                <a class="dropdown-item">Irma</a>
+                                -
+                                <a class="dropdown-item">Jade</a>
+                                -
+                                <a class="dropdown-item">Jane</a>
+                                -
+                                <a class="dropdown-item">Jax</a>
+                                -
+                                <a class="dropdown-item">Jaxon</a>
+                                -
+                                <a class="dropdown-item">Jill</a>
+                                -
+                                <a class="dropdown-item">Jordan</a>
+                                -
+                                <a class="dropdown-item">Joy</a>
+                                -
+                                <a class="dropdown-item">Julia</a>
+                                -
+                                <a class="dropdown-item">Kids Azure</a>
+                                -
+                                <a class="dropdown-item">Kids Monroe</a>
+                                -
+                                <a class="dropdown-item">Leggings</a>
+                                -
+                                <a class="dropdown-item">Lindsay</a>
+                                -
+                                <a class="dropdown-item">Lola</a>
+                                -
+                                <a class="dropdown-item">Lucy</a>
+                                -
+                                <a class="dropdown-item">Lynnae</a>
+                                -
+                                <a class="dropdown-item">Madison</a>
+                                -
+                                <a class="dropdown-item">Mae</a>
+                                -
+                                <a class="dropdown-item">Maria</a>
+                                -
+                                <a class="dropdown-item">Mark</a>
+                                -
+                                <a class="dropdown-item">Maurine</a>
+                                -
+                                <a class="dropdown-item">Maxi</a>
+                                -
+                                <a class="dropdown-item">Michael</a>
+                                -
+                                <a class="dropdown-item">Monroe</a>
+                                -
+                                <a class="dropdown-item">Monroe Jacket</a>
+                                -
+                                <a class="dropdown-item">Nicole</a>
+                                -
+                                <a class="dropdown-item">Patrick</a>
+                                -
+                                <a class="dropdown-item">Perfect</a>
+                                -
+                                <a class="dropdown-item">Randy</a>
+                                -
+                                <a class="dropdown-item">Sarah</a>
+                                -
+                                <a class="dropdown-item">Sariah</a>
+                                -
+                                <a class="dropdown-item">Scarlett</a>
+                                -
+                                <a class="dropdown-item">Shirley</a>
+                                -
+                                <a class="dropdown-item">Sloan</a>
+                                -
+                                <a class="dropdown-item">Thor</a>
+                            </div>
+                        </div>
+                        <p id="StyleChose" class="fontface"></p>
+                        <div class="dropdown">
+                            <button class="btn btn-primary dropdown-toggle blue accent-1" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                Size
+                            </button>
+                            <div class="dropdown-menu size" aria-labelledby="dropdownMenuButton">
+                                <a class="dropdown-item">XXS</a>
+                                -
+                                <a class="dropdown-item">XS</a>
+                                -
+                                <a class="dropdown-item">S</a>
+                                -
+                                <a class="dropdown-item">M</a>
+                                -
+                                <a class="dropdown-item">L</a>
+                                -
+                                <a class="dropdown-item">XL</a>
+                                -
+                                <a class="dropdown-item">2XL</a>
+                                -
+                                <a class="dropdown-item">3XL</a>
+                                -
+                                <a class="dropdown-item">Tween</a>
+                                -
+                                <a class="dropdown-item">OS</a>
+                                -
+                                <a class="dropdown-item">TC</a>
+                                -
+                                <a class="dropdown-item">TC2</a>
+                                -
+                                <a class="dropdown-item">S/M</a>
+                                -
+                                <a class="dropdown-item">L/XL</a>
+                                -
+                                <a class="dropdown-item">2</a>
+                                -
+                                <a class="dropdown-item">4</a>
+                                -
+                                <a class="dropdown-item">6</a>
+                                -
+                                <a class="dropdown-item">8</a>
+                                -
+                                <a class="dropdown-item">10</a>
+                                -
+                                <a class="dropdown-item">12</a>
+                                -
+                                <a class="dropdown-item">14</a>
+                            </div>
+                        </div>
+                        <p id="SizeChose" class="fontface"></p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="card #9e9e9e grey">
+                    <div class="card-content white-text text-center">
+                        <span class="card-title">Choose font, size and color</span><br>
+                    </div>
+                    <div class="card-btn text-center">
+                        <div class="dropdown">
+                            <button class="btn btn-primary dropdown-toggle blue accent-1" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Font</button>
+                            <div class="dropdown-menu font" aria-labelledby="dropdownMenuButton" style="z-index:1000">
+                                <a class="dropdown-item">SteelFish</a>
+                                -
+                                <a class="dropdown-item">Maven Pro</a>
+                                -
+                                <a class="dropdown-item">Caviar Dreams</a>
+                                -
+                                <a class="dropdown-item">Roboto</a>
+                                -
+                                <a class="dropdown-item">Walkway</a>
+                                -
+                                <a class="dropdown-item">Gabrielle</a>
+                                -
+                                <a class="dropdown-item">Comfortaa</a>
+                            </div>
+                        </div>
+                        <p id="FontChose" class="fontface"></p>
+                        Font Size <div class="slider" id="SlideFontSize"></div>&nbsp;
+                        Font Color <input type='text' id="showPalette" value='#fff'></input>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <hr>
+        <p class="text-center">Preview</p>
+        <i class="fa fa-cog fa-spin fa-3x fa-fw WatermarkCog"></i>
+        <div class="row top-buffer">
+            <div class="col-md-12 text-center">
+                <div id="watermarked" class='divWatermarkPhoto' hidden></div>
+            </div>
+        </div>
+        <hr>
+        <div class="row top-buffer">
+            <div class="col-md-6">
+                <p>
+                    <button id="btnRun" class="btn btn-lg btn-primary blue accent-1">Run Preview</button>
+                    <button id="save_PNG" class="btn btn-lg btn-primary blue accent-1" disabled>Save As PNG</button>
+                    <button id="save_JPG" class="btn btn-lg btn-primary blue accent-1" disabled>Save As JPG</button>
+                </p>
+            </div>
+            <div class="col-md-6 text-right">
+                <button id="btnClearImages" class="btn btn-lg btn-primary blue accent-1" data-toggle="tooltip" data-placement="top" title="" data-original-title="Clears preview and selected folder. Logo, font, and style will remain">Clear Pictures</button>
+                <button id="btnClearAll" class="btn btn-lg btn-primary blue accent-1" data-toggle="tooltip" data-placement="top" title="" data-original-title="Clears all fields and preview">Clear Everything</button>
+            </div>
+        </div>
+
+        <div class="crop" id="cropdiv">
+        </div>
+        <div id="cropeddiv" hidden>
+        </div>
+        <div id="imgresized" hidden>
+        </div>
+        <div id="JPGContainer" hidden>
+        </div>
+
+        <div class="modal">
+            <i class="fa fa-cog fa-spin fa-3x fa-fw centered"></i>
+            <h5 class="centered-text">Please wait while I resize and get a detailed close up.</h5>
+        </div>
     </div>
 
-    <div class="col s6">
-      <div class="card #9e9e9e grey center" id="LogoCard" style="height:292;">
-        <div class="card-content white-text center">
-          <h4 class="card-title">Choose a logo</h4>
-          <canvas id="LogoCanvas" class="card-img-bottom center"></canvas>
-        </div>
-        <div class="card-action center">
-          <label class="btn btn-primary blue accent-1 tooltipped" data-tooltip="Logo will be resized to a maximum 200x200px">
-              Browse <input type="file" id="choose_logo" style="display: none;">
-          </label>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <div class="row top-buffer">
-    <div class="col s6">
-      <div class="card #9e9e9e grey" style="height:337;">
-        <div class="card-content white-text center">
-            <span class="card-title">Choose the style and size</span><br>
-        </div>
-        <div class="card-action center">
-          <div class="input-field col s12">
-            <select id='style'>
-            <option value="" disabled selected>Choose your style</option>
-            <option value="Adeline">Adeline</option>
-            <option value="Amelia">Amelia</option>
-            <option value="Anna">Anna</option>
-            <option value="Azure">Azure</option>
-            <option value="Bianka">Bianka</option>
-            <option value="Carly">Carly</option>
-            <option value="Cassie">Cassie</option>
-            <option value="Classic">Classic</option>
-            <option value="Gigi">Gigi</option>
-            <option value="Gracie">Gracie</option>
-            <option value="Harvey">Harvey</option>
-            <option value="Irma">Irma</option>
-            <option value="Jade">Jade</option>
-            <option value="Jaxon">Jaxon</option>
-            <option value="Jill">Jill</option>
-            <option value="Jordan">Jordan</option>
-            <option value="Joy">Joy</option>
-            <option value="Julia">Julia</option>
-            <option value="Kids Azure">Kids Azure</option>
-            <option value="Kids Monroe">Kids Monroe</option>
-            <option value="Leggings">Leggings</option>
-            <option value="Lindsay">Lindsay</option>
-            <option value="Lola">Lola</option>
-            <option value="Lucy">Lucy</option>
-            <option value="Lynnae">Lynnae</option>
-            <option value="Madison">Madison</option>
-            <option value="Mae">Mae</option>
-            <option value="Mark">Mark</option>
-            <option value="Maxi">Maxi</option>
-            <option value="Monroe">Monroe</option>
-            <option value="Nicole">Nicole</option>
-            <option value="Patrick">Patrick</option>
-            <option value="Perfect">Perfect</option>
-            <option value="Randy">Randy</option>
-            <option value="Sarah">Sarah</option>
-            <option value="Sariah">Sariah</option>
-            <option value="Scarlett">Scarlett</option>
-            <option value="Shirley">Shirley</option>
-            <option value="Sloan">Sloan</option>
-            </select>
-            <label>Size Select</label>
-          </div>
-          <p id="StyleChose" class="fontface"></p>
-
-          <div class="input-field col s12">
-            <select id='size'>
-              <option value="" disabled selected>Choose your size</option>
-              <option value="XXS">XXS</option>
-              <option value="XS">XS</option>
-              <option value="S">S</option>
-              <option value="M">M</option>
-              <option value="L">L</option>
-              <option value="XL">XL</option>
-              <option value="XXL">XXL</option>
-              <option value="2XL">2XL</option>
-              <option value="3XL">3XL</option>
-              <option value="Tween">Tween</option>
-              <option value="OS">OS</option>
-              <option value="TC">TC</option>
-              <option value="TC2">TC2</option>
-              <option value="S/M">S/M</option>
-              <option value="L/XL">L/XL</option>
-              <option value="2">2</option>
-              <option value="4">4</option>
-              <option value="6">6</option>
-              <option value="8">8</option>
-              <option value="10">10</option>
-              <option value="12">12</option>
-            </select>
-            <label>Size Select</label>
-          </div>
-          <!-- </div> -->
-          <p id="SizeChose" class="fontface"></p>
-        </div>
-    </div>
-  </div>
-
-    <div class="col s6">
-      <!-- <div class="card #9e9e9e grey" style="height:241;"> -->
-      <div class="card #9e9e9e grey">
-        <div class="card-content white-text center">
-            <span class="card-title">Choose font, size and color</span><br>
-        </div>
-
-        <div class="card-action center">
-          <div class="input-field col s12 FontDiv">
-            <select id='font'>
-              <option value="" disabled selected>Choose your font</option>
-              <option value="SteelFish">SteelFish</option>
-              <option value="Maven Pro">Maven Pro</option>
-              <option value="Caviar Dreams">Caviar Dreams</option>
-              <option value="Roboto">Roboto</option>
-              <option value="Walkway">Walkway</option>
-              <option value="Gabrielle">Gabrielle</option>
-              <option value="Comfortaa">Comfortaa</option>
-            </select>
-            <label>Font Select</label>
-          </div>
-        <!-- </div> -->
-          <p id="FontChose" class="fontface"></p>
-          <!-- Font Size <div class="slider" id="SlideFontSize"></div>&nbsp; -->
-          <label><font color="white">Font Size</font></label>
-          <form action="#">
-            <p class="range-field">
-              <input type="range" id="SlideFontSize" min="0" max="100" value="48"/>
-            </p>
-          </form>
-          Font Color <input type='text' id="showPalette" value='#fff'></input>
-      </div>
-    </div>
-  </div>
-<!-- </div> -->
-<hr>
-<p class="center">Preview</p>
-<i class="fa fa-cog fa-spin fa-3x fa-fw WatermarkCog"></i>
-  <div class="row top-buffer">
-    <div class="col-md-12 center">
-      <div id="watermarked" class='divWatermarkPhoto' hidden></div>
-    </div>
-  </div>
-<hr>
-  <div class="row top-buffer">
-    <div class="col s12">
-      <button id="btnRun" class="btn btn-lg btn-primary blue accent-1">Run Preview</button>
-      <button id="save_PNG" class="btn btn-lg btn-primary blue accent-1" disabled>Save As PNG</button>
-      <button id="save_JPG" class="btn btn-lg btn-primary blue accent-1" disabled>Save As JPG</button>
-      <button id="btnClearImages" class="btn btn-lg btn-primary blue accent-1 tooltipped" data-tooltip="Clears preview and selected folder. Logo, font, and style will remain">Clear Pictures</button>
-      <button id="btnClearAll" class="btn btn-lg btn-primary blue accent-1 tooltipped" data-tooltip="Clears all fields and preview">Clear Everything</button>
-    </div>
-  </div>
-
-
-  <div class="crop" id="cropdiv">
-  </div>
-
-  <div id="cropeddiv" hidden>
-  </div>
-
-  <div id="imgresized" hidden>
-  </div>
-
-  <div id="JPGContainer" hidden>
-
-  </div>
-
-
-  <div class="LoadingModal">
-    <i class="fa fa-cog fa-spin fa-3x fa-fw centered"></i>
-    <h5 class="centered-text"><font color='black'>Please wait while I resize and get a detailed close up.</font></h5>
-  </div>
-</div>
-
-
-
-<script src="js/app.js"></script>
-<!-- <script>window.jQuery = window.$ = require('jquery');</script> -->
-<script src="js/watermark.js" type="text/javascript"></script>
-<script src="js/jszip.min.js" type="text/javascript"></script>
-<script src="js/FileSaver.min.js" type="text/javascript"></script>
-<script src="js/imagesloaded.min.js" type="text/javascript"></script>
-<script src='js/spectrum.js'></script>
-<script src='js/bootstrap-select.min.js'></script>
-<script src="js/bootstrap-slider.min.js"></script>
-<script src="js/ImageTools.js"></script>
-<script src="js/materialize.min.js"></script>
-
+    <script src="js/app.js"></script>
+    <!-- <script src="js/app.min.js"></script> -->
+    <script src="js/watermark.js" type="text/javascript"></script>
+    <script src="js/jszip.min.js" type="text/javascript"></script>
+    <script src="js/FileSaver.min.js" type="text/javascript"></script>
+    <script src="js/imagesloaded.min.js" type="text/javascript"></script>
+    <script src="js/bootstrap.min.js"></script>
+    <script src='js/spectrum.js'></script>
+    <script src='js/bootstrap-select.min.js'></script>
+    <script src="js/bootstrap-slider.min.js"></script>
+    <script src="js/ImageTools.js"></script>
+    <script src="js/mdb.min.js"></script>
 </body>
 </html>
+
